@@ -1,0 +1,4 @@
+qa-chrome/
+qa-chrome-verified/
+__pycache__/
+*.pyc

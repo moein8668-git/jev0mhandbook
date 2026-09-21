@@ -1,0 +1,2998 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="کتاب فارسی کاربردی TypeSafe، Jev و Laya؛ از اصول مدل تا پروژهٔ کامل، ارزیابی و اجرای محلی.">
+<title>کتاب کاربردی TypeSafe، Jev و Laya</title>
+<style>
+
+:root {
+  color-scheme: dark;
+  --page: #111311;
+  --paper: #171a17;
+  --soft: #20251f;
+  --ink: #e8ebe1;
+  --muted: #afb8aa;
+  --line: #343e31;
+  --accent: #d0de8a;
+  --on-accent: #18200c;
+  --code: #0c100c;
+  --measure: 790px;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: #eef1e9;
+  --paper: #fafcf7;
+  --soft: #e5ebdb;
+  --ink: #252d22;
+  --muted: #56644f;
+  --line: #c6d0bf;
+  --accent: #425d14;
+  --on-accent: #f8fbef;
+  --code: #eaf0e3;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-padding-top: 90px;
+}
+body {
+  margin: 0;
+  font-family: Tahoma, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 2.15;
+  background: var(--page);
+  color: var(--ink);
+}
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 7px 13px;
+  color: var(--ink);
+  background: var(--soft);
+  line-height: 1.6;
+}
+button:hover {
+  border-color: var(--accent);
+}
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+.skip {
+  position: absolute;
+  top: -100px;
+  right: 15px;
+  z-index: 10;
+  background: var(--paper);
+  padding: 12px;
+}
+.skip:focus {
+  top: 10px;
+}
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 4vw;
+  border-bottom: 1px solid var(--line);
+  background: var(--page);
+}
+.wordmark {
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.tools {
+  display: flex;
+  gap: 8px;
+}
+.layout {
+  max-width: 1280px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 285px minmax(0, 1fr);
+  gap: 65px;
+  padding: 0 32px 70px;
+}
+.sidebar {
+  position: sticky;
+  top: 86px;
+  align-self: start;
+  max-height: calc(100dvh - 102px);
+  overflow: auto;
+  padding: 18px 0 25px 15px;
+  scrollbar-width: thin;
+}
+.sidebar h2 {
+  font-size: 18px;
+  margin: 0 0 15px;
+}
+.search {
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 9px 11px;
+  font-size: 13px;
+}
+.search-status {
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 28px;
+}
+.toc {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+.toc li {
+  margin-bottom: 5px;
+}
+.toc a {
+  display: flex;
+  gap: 9px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.8;
+  padding: 7px 9px;
+  border-right: 2px solid transparent;
+}
+.toc a:hover,
+.toc a.active {
+  color: var(--accent);
+  border-right-color: var(--accent);
+  background: var(--soft);
+}
+.toc .n {
+  flex: 0 0 22px;
+  font-family: monospace;
+}
+main {
+  min-width: 0;
+  max-width: var(--measure);
+}
+.cover {
+  padding: 62px 0 50px;
+}
+.kicker {
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+h1 {
+  font-size: clamp(30px, 3.7vw, 49px);
+  line-height: 1.65;
+  letter-spacing: -.035em;
+  margin: 13px 0 20px;
+}
+.cover p {
+  color: var(--muted);
+}
+.book-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  margin-top: 25px;
+  font-size: 13px;
+}
+.book-stats strong {
+  color: var(--accent);
+}
+.chapter {
+  padding: 48px 0 35px;
+  border-top: 1px solid var(--line);
+}
+.chapter-number {
+  color: var(--muted);
+  font-size: 12px;
+}
+h2 {
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.8;
+  margin: 10px 0 26px;
+  letter-spacing: -.025em;
+}
+h3 {
+  font-size: 20px;
+  margin-top: 32px;
+}
+p {
+  margin: 0 0 22px;
+}
+bdi {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: .94em;
+}
+.term-note {
+  display: grid;
+  grid-template-columns: 25px minmax(0,1fr);
+  gap: 12px;
+  padding: 20px;
+  background: var(--soft);
+  border-right: 3px solid var(--accent);
+  margin: 25px 0;
+  font-size: 15px;
+}
+.term-note p {
+  margin: 0;
+}
+.alert-icon {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: bold 16px/1 sans-serif;
+  margin-top: 5px;
+}
+.code-block {
+  margin: 26px 0;
+  border: 1px solid var(--line);
+  background: var(--code);
+  max-width: 100%;
+}
+.code-bar {
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--soft);
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+.code-bar button {
+  padding: 4px 9px;
+  flex: 0 0 auto;
+}
+pre {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+  margin: 0;
+  overflow: auto;
+  padding: 20px;
+  tab-size: 4;
+  font: 13px/1.9 Consolas, "Cascadia Code", monospace;
+}
+pre code {
+  font: inherit;
+  white-space: pre;
+}
+.chapter-sources {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 25px;
+}
+.chapter-sources a {
+  display: inline-block;
+  margin: 0 0 6px 14px;
+}
+details {
+  border: 1px solid var(--line);
+  padding: 15px 20px;
+  margin: 20px 0;
+}
+summary {
+  cursor: pointer;
+}
+.lab {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 25px;
+  margin: 30px 0;
+}
+.lab label {
+  display: block;
+  margin: 14px 0;
+}
+.lab input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  direction: ltr;
+}
+output {
+  display: block;
+  background: var(--soft);
+  padding: 14px;
+  font-size: 16px;
+  margin-top: 15px;
+}
+.formula {
+  direction: ltr;
+  text-align: left;
+  font: 15px/1.9 Consolas, monospace;
+  padding: 15px;
+  background: var(--soft);
+  overflow: auto;
+}
+.reference-list {
+  line-height: 2.5;
+  font-size: 14px;
+}
+.footer {
+  font-size: 13px;
+  color: var(--muted);
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 1050px) {
+  .layout {
+    gap: 30px;
+    grid-template-columns: 245px minmax(0,1fr);
+  }
+}
+@media (max-width: 800px) {
+  body {
+    font-size: 16px;
+  }
+  .toolbar {
+    padding: 10px 16px;
+  }
+  .wordmark {
+    font-size: 12px;
+  }
+  .tools button {
+    font-size: 12px;
+    padding: 6px 9px;
+  }
+  .layout {
+    display: block;
+    padding: 0 20px 40px;
+  }
+  .sidebar {
+    position: static;
+    max-height: 360px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .cover {
+    padding-top: 30px;
+  }
+  pre {
+    font-size: 12px;
+    padding: 15px;
+  }
+}
+@media print {
+  :root {
+    --page: white;
+    --paper: white;
+    --soft: #eeeeee;
+    --ink: #151515;
+    --muted: #444444;
+    --line: #aaaaaa;
+    --accent: #304a12;
+    --code: #f6f6f6;
+  }
+  .toolbar,
+  .sidebar,
+  .skip,
+  .code-bar button,
+  .lab {
+    display: none !important;
+  }
+  .layout {
+    display: block;
+    padding: 0;
+  }
+  main {
+    max-width: none;
+  }
+  body {
+    font-size: 11pt;
+  }
+  .chapter {
+    break-before: page;
+  }
+  .chapter[hidden] {
+    display: block !important;
+  }
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 8.5pt;
+  }
+  pre code {
+    white-space: pre-wrap;
+  }
+  .term-note {
+    break-inside: avoid;
+  }
+  a {
+    color: inherit;
+  }
+}
+
+</style>
+</head>
+<body>
+<a href="#content" class="skip">رفتن به متن کتاب</a>
+<header class="toolbar">
+<a class="wordmark" href="#cover">کتاب کاربردی <bdi dir="ltr">TypeSafe · Jev · Laya</bdi></a>
+<div class="tools">
+<button id="theme" type="button">روشن / تیره</button>
+<button id="print" type="button">چاپ / PDF</button>
+</div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="فهرست و جست‌وجو">
+<h2>فهرست کتاب</h2>
+<label for="search" class="muted">جست‌وجو در فصل‌ها</label>
+<input id="search" class="search" type="search" placeholder="مثلاً کالیبراسیون یا فارسی" autocomplete="off">
+<div id="search-status" class="search-status" role="status">جست‌وجو در متن کامل فصل‌ها</div>
+<button id="clear-search" type="button">نمایش همهٔ فصل‌ها</button>
+<nav aria-label="فهرست فصل‌ها">
+<ol class="toc">
+<li>
+<a href="#chapter-1">
+<span class="n">۱</span>
+<span>نقشهٔ راه و تعریف دقیق محصول‌ها</span>
+</a>
+</li>
+<li>
+<a href="#chapter-2">
+<span class="n">۲</span>
+<span>توضیح در حد پنج‌سالگی: یک جمله، یک سؤال روشن</span>
+</a>
+</li>
+<li>
+<a href="#chapter-3">
+<span class="n">۳</span>
+<span>توضیح در حد ده‌سالگی: دسته‌بندی و تردید</span>
+</a>
+</li>
+<li>
+<a href="#chapter-4">
+<span class="n">۴</span>
+<span>توضیح در حد پانزده‌سالگی: قرارداد و جریان برنامه</span>
+</a>
+</li>
+<li>
+<a href="#chapter-5">
+<span class="n">۵</span>
+<span>توضیح میانی: چه مسئله‌ای را به مدل بسپاریم؟</span>
+</a>
+</li>
+<li>
+<a href="#chapter-6">
+<span class="n">۶</span>
+<span>دادهٔ ورودی: state را چطور بسازیم؟</span>
+</a>
+</li>
+<li>
+<a href="#chapter-7">
+<span class="n">۷</span>
+<span>پرسش و معیار: instructions، criteria و شناسه</span>
+</a>
+</li>
+<li>
+<a href="#chapter-8">
+<span class="n">۸</span>
+<span>Noul: احتمالِ درستی یک گزاره</span>
+</a>
+</li>
+<li>
+<a href="#chapter-9">
+<span class="n">۹</span>
+<span>Choice: یک انتخاب از گزینه‌های تعریف‌شده</span>
+</a>
+</li>
+<li>
+<a href="#chapter-10">
+<span class="n">۱۰</span>
+<span>Score: سطح‌های مرتب و میانگین وزنی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-11">
+<span class="n">۱۱</span>
+<span>Probability، confidence و کالیبراسیون</span>
+</a>
+</li>
+<li>
+<a href="#chapter-12">
+<span class="n">۱۲</span>
+<span>داخل مدل: از متن تا بردار و احتمال</span>
+</a>
+</li>
+<li>
+<a href="#chapter-13">
+<span class="n">۱۳</span>
+<span>معماری Laya در کد عمومی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-14">
+<span class="n">۱۴</span>
+<span>تولید تدریجی متن و اجرای غیرخودرگرسیو</span>
+</a>
+</li>
+<li>
+<a href="#chapter-15">
+<span class="n">۱۵</span>
+<span>آموزش مدل، RLCD و تفاوت آن با اجرای عادی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-16">
+<span class="n">۱۶</span>
+<span>توکن، محدودیت زمینه و داده‌ای که ممکن است حذف شود</span>
+</a>
+</li>
+<li>
+<a href="#chapter-17">
+<span class="n">۱۷</span>
+<span>فراخوانی TypeSafe: قرارداد HTTP و چرخهٔ درخواست</span>
+</a>
+</li>
+<li>
+<a href="#chapter-18">
+<span class="n">۱۸</span>
+<span>شروع با SDKهای Python و JavaScript</span>
+</a>
+</li>
+<li>
+<a href="#chapter-19">
+<span class="n">۱۹</span>
+<span>پروژهٔ کامل: طراحی مسیریاب تیکت</span>
+</a>
+</li>
+<li>
+<a href="#chapter-20">
+<span class="n">۲۰</span>
+<span>پروژهٔ کامل: خواندن کد از ورودی تا تصمیم</span>
+</a>
+</li>
+<li>
+<a href="#chapter-21">
+<span class="n">۲۱</span>
+<span>اجرای محلی Laya در یک پروژهٔ مستقل</span>
+</a>
+</li>
+<li>
+<a href="#chapter-22">
+<span class="n">۲۲</span>
+<span>راهنمای Playground محلی در پورت ۸۷۷۰</span>
+</a>
+</li>
+<li>
+<a href="#chapter-23">
+<span class="n">۲۳</span>
+<span>مثال کاربردی: پیدا کردن درخواست واقعی در گفت‌وگو</span>
+</a>
+</li>
+<li>
+<a href="#chapter-24">
+<span class="n">۲۴</span>
+<span>مثال کاربردی: بازیابی و رتبه‌بندی سندها</span>
+</a>
+</li>
+<li>
+<a href="#chapter-25">
+<span class="n">۲۵</span>
+<span>مثال کاربردی: استخراج مقدار با انتخاب کنترل‌شده</span>
+</a>
+</li>
+<li>
+<a href="#chapter-26">
+<span class="n">۲۶</span>
+<span>ارزیابی: مجموعهٔ دادهٔ واقعی و برچسب مرجع</span>
+</a>
+</li>
+<li>
+<a href="#chapter-27">
+<span class="n">۲۷</span>
+<span>معیارهای کیفیت و انتخاب آستانه</span>
+</a>
+</li>
+<li>
+<a href="#chapter-28">
+<span class="n">۲۸</span>
+<span>خواندن درست آزمایش Self-consistency</span>
+</a>
+</li>
+<li>
+<a href="#chapter-29">
+<span class="n">۲۹</span>
+<span>فارسی: نفی، نقش گوینده، رقم و متن ترکیبی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-30">
+<span class="n">۳۰</span>
+<span>کارایی، batching، cache و نسخه‌بندی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-31">
+<span class="n">۳۱</span>
+<span>خطاهای سرویس و اتصال به محصول</span>
+</a>
+</li>
+<li>
+<a href="#chapter-32">
+<span class="n">۳۲</span>
+<span>عیب‌یابی با ترتیب مشخص</span>
+</a>
+</li>
+<li>
+<a href="#chapter-33">
+<span class="n">۳۳</span>
+<span>آزمایش‌های تعاملی و تمرین‌های پیشنهادی</span>
+</a>
+</li>
+<li>
+<a href="#chapter-34">
+<span class="n">۳۴</span>
+<span>واژه‌نامهٔ کاربردی و پاسخ به پرسش‌های رایج</span>
+</a>
+</li>
+<li><a href="#labs">آزمایش‌های تعاملی</a></li>
+<li><a href="#references">منابع و فایل‌های همراه</a></li>
+</ol>
+</nav>
+</aside>
+<main id="content">
+<section class="cover" id="cover">
+<p class="kicker">از فهم جمله تا تصمیم در نرم‌افزار</p>
+<h1>کتاب کاربردی<br><bdi dir="ltr">TypeSafe، Jev و Laya</bdi></h1>
+<p>شرح قدم‌به‌قدم داده، ساختار مدل، پرسش‌های تایپ‌شده و پیاده‌سازی یک پروژهٔ قابل اجرا؛ با مثال‌های طبیعی فارسی و منابع قابل بررسی.</p>
+<div class="book-stats">
+<span><strong>۳۴</strong> فصل</span>
+<span><strong>۱۰٬۳۲۰</strong> واژهٔ توضیح، بدون کد</span>
+<span><strong>۵۲ تا ۶۵</strong> دقیقه مطالعهٔ متن</span>
+</div>
+<p class="muted">زمان مطالعه با سرعت ۱۶۰ تا ۲۰۰ واژه در دقیقه برآورد شده است. اجرای تمرین‌ها و خواندن کد زمان بیشتری می‌خواهد. این فایل بدون اینترنت قابل خواندن است؛ فقط لینک منابع و مدل‌های زنده به اتصال یا سرویس مربوط نیاز دارند.</p>
+<p><a href="examples/support_router.py" download>دریافت کد پروژهٔ کامل</a> · <a href="examples/test_support_router.py" download>دریافت آزمون‌ها</a></p>
+</section>
+<section class="chapter" id="chapter-1" aria-labelledby="heading-1">
+<div class="chapter-number">فصل ۱</div>
+<h2 id="heading-1">نقشهٔ راه و تعریف دقیق محصول‌ها</h2>
+<p>
+این کتاب برای کسی نوشته شده که می‌خواهد پس از مطالعه، بتواند یک قابلیت
+مبتنی بر قضاوت زبانی را در پروژهٔ خودش طراحی، پیاده‌سازی و ارزیابی کند.
+فرض می‌کنیم با متغیر، تابع و <bdi dir="ltr">JSON</bdi> آشنایی اولیه دارید. اگر این واژه‌ها
+تازه‌اند، توضیح‌های علامت‌دار کنار متن کمک می‌کنند. لازم نیست از قبل
+یادگیری ماشین بدانید؛ مفاهیم از مثال روزمره شروع می‌شوند و به قرارداد <bdi dir="ltr">API</bdi>،
+ساختار مدل و آزمایش قابل تکرار می‌رسند.
+</p>
+<p>
+در این حوزه چهار نام می‌بینید که نباید با هم یکی گرفته شوند. <bdi dir="ltr">TypeSafe</bdi> نام
+ارائه‌دهنده و رابط خدمات است. <bdi dir="ltr">Jev</bdi> مدل تصمیم‌گیری آن است که از طریق <bdi dir="ltr">API</bdi>
+میزبانی‌شده استفاده می‌شود. <bdi dir="ltr">Laya</bdi> پروژهٔ جداگانه‌ای با کد و وزن‌های
+منتشرشده است. <bdi dir="ltr">Brain Function Collapse</bdi> وب‌سایت یک طراح است که برای <bdi dir="ltr">Laya</bdi>
+محیط آزمایش، بازی و مقایسه ساخته است. شباهت ورودی‌ها به معنای مشترک بودن
+مدل، وزن‌ها یا جزئیات خروجی نیست.
+</p>
+<p>
+در این سند، «مدل» همان شبکهٔ آموزش‌دیده‌ای است که محاسبه می‌کند. «سرویس»
+برنامه‌ای است که مدل را پشت یک <bdi dir="ltr">API</bdi> قرار می‌دهد. «<bdi dir="ltr">Playground</bdi>» صفحه‌ای است
+که ورودی می‌گیرد و پاسخ سرویس یا یک خروجی ضبط‌شده را نمایش می‌دهد.
+بنابراین باز شدن یک صفحه در مرورگر، به‌تنهایی ثابت نمی‌کند مدل آمادهٔ
+اجراست. این تفاوت برای محیط محلی شما در پورت ۸۷۷۰ اهمیت مستقیم دارد.
+</p>
+<p>
+مسیر پیشنهادی مطالعه چنین است: ابتدا فصل‌های توضیح ساده و قرارداد داده را
+بخوانید؛ سپس سه نوع سؤال و فصل معماری را دنبال کنید. برای اجرای اولین
+نمونه به فصل پروژهٔ کامل بروید. بعد از آن فصل <bdi dir="ltr">Laya</bdi>، محیط محلی، ارزیابی و
+عیب‌یابی را بخوانید. بخش‌های ریاضی و آموزش مدل عمق بیشتری دارند و برای
+شروع اجباری نیستند، اما توضیح می‌دهند چرا یک عدد احتمال را نباید حقیقت
+قطعی تلقی کرد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">API</bdi> یعنی راه ارتباط برنامه‌ها با یکدیگر. <bdi dir="ltr">SDK</bdi> کتابخانه‌ای است که استفاده از
+آن راه ارتباطی را ساده می‌کند. نصب <bdi dir="ltr">Skill</bdi> فقط راهنمای کارِ دستیار
+برنامه‌نویسی را اضافه می‌کند؛ نه کلید <bdi dir="ltr">API</bdi> می‌سازد، نه وزن مدل را دانلود
+می‌کند و نه به‌خودی‌خود قابلیت تازه‌ای به برنامهٔ شما می‌افزاید.
+</p>
+</aside>
+<p>
+این سند میان واقعیت مستند، مثال آموزشی و پیشنهاد طراحی تمایز می‌گذارد.
+عددهای مثال با برچسب آموزشی آمده‌اند. دربارهٔ <bdi dir="ltr">Jev</bdi> فقط آنچه مستندات عمومی
+می‌گویند بیان می‌شود؛ دربارهٔ <bdi dir="ltr">Laya</bdi> جزئیات بیشتری از کد عمومی بررسی شده
+است. منابع نسخه‌پذیرند: در بازبینی فنی، نسخهٔ بسته و شناسهٔ مدل را ثبت
+کنید و به نام متغیری مثل <bdi dir="ltr">latest</bdi> به‌عنوان نسخهٔ ثابت تکیه نکنید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">معرفی TypeSafe</a>
+<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">System One</a>
+<a href="https://docs.typesafe.ai/agent-skill" target="_blank" rel="noopener noreferrer">Skill رسمی</a>
+<a href="https://brainfunctioncollapse.com/laya" target="_blank" rel="noopener noreferrer">Laya در Brain Function Collapse</a>
+<a href="https://brainfunctioncollapse.com/laya/about" target="_blank" rel="noopener noreferrer">دربارهٔ سازندگان Laya و Playground</a>
+</div>
+</section>
+<section class="chapter" id="chapter-2" aria-labelledby="heading-2">
+<div class="chapter-number">فصل ۲</div>
+<h2 id="heading-2">توضیح در حد پنج‌سالگی: یک جمله، یک سؤال روشن</h2>
+<p>
+فرض کن در کتابخانه کمک می‌کنی. کسی یادداشتی می‌دهد: «کتابم را گم کرده‌ام؛
+می‌شود یکی کمکم کند؟» مسئول کتابخانه از تو فقط می‌پرسد: «آیا نویسندهٔ
+یادداشت درخواست کمک کرده است؟» برای پاسخ دادن لازم نیست برای او داستان
+بنویسی. باید معنی جمله را بفهمی و بگویی بله یا نه. مدل تصمیم‌گیری نیز برای
+چنین پرسش‌های محدودی به کار می‌رود.
+</p>
+<p>
+حالا یادداشت دیگری داریم: «اگر فردا کتابم را پیدا نکردم، از شما کمک
+می‌گیرم.» این فرد هنوز درخواست کمک فعلی نکرده است. ظاهر دو جمله شبیه است و
+هر دو واژهٔ «کمک» دارند، اما معنی‌شان یکسان نیست. جست‌وجوی سادهٔ واژه ممکن
+است هر دو را یکسان تشخیص دهد. مدل می‌تواند تفاوتِ منظور، شرط و زمان را از
+متن یاد بگیرد؛ البته ممکن است در تشخیص اشتباه کند.
+</p>
+<p>
+به‌جای جواب خشک، مدل می‌تواند عددی بدهد که نشان دهد پاسخ بله چقدر محتمل
+است. نزدیک یک یعنی بله برایش محتمل‌تر است؛ نزدیک صفر یعنی نه. نزدیک نیم
+یعنی میان دو پاسخ اطمینان روشنی ندارد. این عدد را مانند درجهٔ بلندی صدا
+نخوان: نیم به معنای «نصف درخواست کمک» نیست. معنی‌اش این است که مدل میان دو
+برداشت تردید دارد.
+</p>
+<p>
+برنامهٔ کتابخانه بعد از دریافت عدد، کار بعدی را تعیین می‌کند. ممکن است
+یادداشت روشن را به مسئول راهنما بدهد و یادداشت مبهم را برای بررسی نگه
+دارد. این قسمت یک قانون نوشته‌شده در برنامه است. مدل خودش به تلفن دسترسی
+ندارد، به کسی پیام نمی‌فرستد و مسئولیت رسیدگی را به‌تنهایی بر عهده
+نمی‌گیرد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+تشبیه کتابخانه برای فهم رابطهٔ متن، سؤال و پاسخ است. داخل مدل واقعاً یک
+کارمند یا ذهن انسانی وجود ندارد. محاسبات عددی روی الگوهای یادگرفته‌شده
+انجام می‌شود. در فصل معماری می‌بینیم متن چگونه به اعداد تبدیل می‌شود و
+اعداد چگونه به پاسخ می‌رسند.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">System One</a>
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+</div>
+</section>
+<section class="chapter" id="chapter-3" aria-labelledby="heading-3">
+<div class="chapter-number">فصل ۳</div>
+<h2 id="heading-3">توضیح در حد ده‌سالگی: دسته‌بندی و تردید</h2>
+<p>
+یک صندوق پیام مدرسه را در نظر بگیر. بعضی پیام‌ها دربارهٔ کلاس‌اند، بعضی
+دربارهٔ پرداخت شهریه و بعضی دربارهٔ سرویس رفت‌وآمد. اگر از مدل بپرسیم «این
+پیام باید به کدام بخش برسد؟»، باید فهرست بخش‌ها را هم به آن بدهیم. مدل از
+بین گزینه‌هایی که ما تعیین کرده‌ایم انتخاب می‌کند. اگر بخش نامناسبی جا
+مانده باشد، ممکن است بهترین گزینهٔ موجود همچنان انتخاب بدی باشد.
+</p>
+<p>
+پیامی مانند «برای کلاس ثبت‌نام کردم ولی رسید پرداخت نیامده» به موضوع
+پرداخت اشاره می‌کند. پیام «چطور کلاس جدید ثبت‌نام کنم؟» بیشتر به ثبت‌نام
+مربوط است. فقط دیدن کلمهٔ کلاس کافی نیست؛ رابطهٔ جمله‌ها مهم است. در عین
+حال، اگر شمارهٔ پرونده یا مبلغ عددی لازم باشد، بهتر است برنامه آن را از
+منبع معتبر بخواند و محاسبه کند.
+</p>
+<p>
+در یک سؤال چندگزینه‌ای، مدل احتمال را بین گزینه‌ها تقسیم می‌کند. اگر سه
+گزینه داریم، برای مثال آموزشی ممکن است احتمال‌ها ۰٫۷۵، ۰٫۲۰ و ۰٫۰۵ باشند.
+جمع آن‌ها یک است. انتخاب اول برنده می‌شود، اما هنوز احتمالِ گزینه‌های دیگر
+وجود دارد. اگر احتمال‌ها به هم نزدیک باشند، برنامه می‌تواند از یک نفر
+بخواهد پیام را بررسی کند.
+</p>
+<p>
+این خانوادهٔ ابزارها برای تولید انشا ساخته نشده‌اند. ممکن است از همین
+نتیجه برای انتخاب یک پاسخ آماده استفاده کنید؛ مثلاً بعد از انتخاب بخش
+پرداخت، برنامه شمارهٔ تماس همان بخش را نمایش دهد. متن نهایی را برنامه از
+قالب معتبر خودش برمی‌دارد. بدین ترتیب فهم معنای پیام در مدل انجام شده و
+اطلاعات دقیق نمایش‌داده‌شده از داده‌های برنامه می‌آید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+گزینه‌ها باید معنای قابل تشخیص داشته باشند. اگر دو گزینه را «پشتیبانی» و
+«کمک» بنامید ولی هیچ تفاوتی توضیح ندهید، مشکل فقط کم‌هوشی مدل نیست؛ خود
+مسئله برای یک انسان هم مبهم است. پیش از عوض کردن مدل، تعریف دسته‌ها را
+روشن کنید.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">معرفی TypeSafe</a>
+<a href="https://docs.typesafe.ai/primitives/choice" target="_blank" rel="noopener noreferrer">Choice</a>
+</div>
+</section>
+<section class="chapter" id="chapter-4" aria-labelledby="heading-4">
+<div class="chapter-number">فصل ۴</div>
+<h2 id="heading-4">توضیح در حد پانزده‌سالگی: قرارداد و جریان برنامه</h2>
+<p>
+اکنون مثال را به یک سامانهٔ پشتیبانی واقعی منتقل کنیم. کاربر می‌نویسد: «سه
+روز است وارد حسابم نمی‌شوم. لطفاً این بار یکی از کارشناسان با من صحبت
+کند.» دو نکتهٔ مستقل داریم: مشکل ورود و درخواست ارتباط با کارشناس. یکی را
+می‌توان با <bdi dir="ltr">Choice</bdi> برای انتخاب تیم فنی و دیگری را با <bdi dir="ltr">Noul</bdi> برای تشخیص
+درخواست کارشناس پرسید. درخواست دوم به معنی «کاربر انسان می‌خواهد» نیست؛
+عبارت درست، درخواست گفت‌وگو با پشتیبان انسانی است.
+</p>
+<p>
+برنامه یک شیء <bdi dir="ltr">JSON</bdi> می‌سازد که متن پیام، نام فرستندهٔ هر پیام و اطلاعات
+لازم را دارد. این بسته <bdi dir="ltr">state</bdi> نامیده می‌شود. سپس در بخش <bdi dir="ltr">questions</bdi> دو سؤال
+تعریف می‌کند. سؤال اول می‌پرسد موضوع اصلی کدام است و سؤال دوم می‌پرسد آیا
+مشتری درخواست صحبت با کارشناس کرده است. شناسه‌های این دو سؤال برای پیدا
+کردن جواب‌ها در کد استفاده می‌شوند.
+</p>
+<p>
+وقتی جواب برسد، کد ابتدا ساختارش را بررسی می‌کند: آیا هر دو سؤال پاسخ
+دارند؟ نوع پاسخ درست است؟ عدد احتمال در بازهٔ معتبر است؟ سپس قانون محصول
+را اجرا می‌کند. اگر درخواست کارشناس روشن باشد، پرونده به کارشناس ارجاع
+می‌شود. اگر جواب مبهم باشد، پرونده برای بررسی می‌رود. در هیچ‌کدام از این
+حالت‌ها لازم نیست مدل خودش عملیات پایگاه داده را انجام دهد.
+</p>
+<p>
+چرا هر دو سؤال را در یک درخواست می‌فرستیم؟ چون هر دو برای پاسخ دادن به
+همان اطلاعات اولیه نیاز دارند. ولی اگر سؤال بعدی به داده‌ای نیاز دارد که
+تنها پس از جواب اول می‌توان از پایگاه داده گرفت، آن سؤال باید در مرحلهٔ
+بعد پرسیده شود. مستقل بودن سؤال‌ها به این معنی است که جواب یک سؤال در همان
+درخواست وارد ذهن سؤال دیگر نمی‌شود.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">JSON</bdi> قالبی متنی برای نمایش دادهٔ ساخت‌یافته است. <bdi dir="ltr">object</bdi> مانند مجموعه‌ای از
+نام و مقدار عمل می‌کند و <bdi dir="ltr">array</bdi> فهرستی مرتب از مقدارهاست. اعتبار <bdi dir="ltr">JSON</bdi> فقط
+شکل داده را بررسی می‌کند؛ درست بودن ادعای داخل یک رشته را ثابت نمی‌کند.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-5" aria-labelledby="heading-5">
+<div class="chapter-number">فصل ۵</div>
+<h2 id="heading-5">توضیح میانی: چه مسئله‌ای را به مدل بسپاریم؟</h2>
+<p>
+قبل از نوشتن اولین درخواست، مشخص کنید کدام بخش مسئله به فهم زبان نیاز
+دارد. تشخیص اینکه «دیگر پولش را نمی‌خواهم، فقط حسابم را درست کنید» درخواست
+بازپرداخت نیست، یک مسئلهٔ معنایی است. جمع کردن دو مبلغ، مقایسهٔ شناسهٔ
+سفارش یا بررسی تاریخ انقضا مسئلهٔ دقیق محاسباتی است. این تقسیم مسئولیت هم
+خطا را کم می‌کند و هم هزینهٔ فراخوانی را پایین می‌آورد.
+</p>
+<p>
+در نسخهٔ قبلی این راهنما، بررسی تکراری بودن دو تراکنش مساوی به مدل سپرده
+شده بود. این طراحی برای دادهٔ ساخت‌یافتهٔ معتبر توجیه خوبی ندارد. حتی
+برابر بودن مبلغ دو تراکنش نیز به‌تنهایی ثابت نمی‌کند پرداخت تکراری بوده؛
+ممکن است دو خرید مجزا باشند. دادهٔ درگاه، شناسهٔ سفارش، وضعیت تسویه و
+قواعد خود سامانه باید مرجع این تشخیص باشند. مدل صرفاً می‌تواند تشخیص دهد
+کاربر ادعای کسر مبلغ تکراری کرده است.
+</p>
+<p>
+یک طراحی خوب از نتیجهٔ قابل مشاهده شروع می‌کند. مثلاً «پس از دریافت پیام،
+تیم مناسب و نیاز به بررسی انسانی مشخص شود». سپس به عقب برمی‌گردد: برای این
+نتیجه چه قضاوت‌هایی لازم‌اند؟ چه داده‌ای لازم است؟ کدام داده قبلاً در
+سیستم وجود دارد؟ چه چیزی را می‌توان بدون مدل پاسخ داد؟ این پرسش‌ها به شما
+کمک می‌کنند از یک سؤال بزرگ و مبهم به چند خروجی قابل آزمون برسید.
+</p>
+<p>
+مدل تصمیم‌گیری برای کارهایی مانند انتخاب مسیر، رتبه‌بندی نامزدها، بررسی
+پشتیبانی یک ادعا با متن شاهد، و تشخیص چند ویژگی مستقل مناسب است. تولید
+توضیح بلند، نوشتن کد و استدلال چندمرحله‌ای باز ممکن است به ابزار دیگری
+نیاز داشته باشد. می‌توان هر دو نوع مدل را در یک سامانه استفاده کرد: مدل
+کوچک یک قضاوت محدود بدهد و مدل مولد یا کارشناس موارد پیچیده را بررسی کند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+مرز ماژول یعنی قراردادی که مشخص می‌کند یک جزء چه ورودی می‌گیرد و چه خروجی
+می‌دهد. در این راهنما خروجی جزء هوش مصنوعی «پیشنهاد مسیر همراه احتمال»
+است. اجرای عملیات بیرونی در جزء دیگری قرار می‌گیرد تا مستقل از کیفیت مدل
+قابل کنترل و آزمون باشد.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">System One</a>
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-6" aria-labelledby="heading-6">
+<div class="chapter-number">فصل ۶</div>
+<h2 id="heading-6">دادهٔ ورودی: state را چطور بسازیم؟</h2>
+<p>
+<bdi dir="ltr">state</bdi> تصویری از اطلاعات لازم برای همان قضاوت است. برای تشخیص موضوع یک
+پیام، رشتهٔ متن ممکن است کافی باشد. اگر گفت‌وگو چند نوبت دارد، نقش گوینده
+و ترتیب پیام‌ها اهمیت پیدا می‌کند. اگر قرار است پیام با مقررات یا یک سند
+مقایسه شود، متن مقررات و شناسهٔ نسخهٔ آن را نیز کنار پیام بگذارید. دادهٔ
+زیاد همیشه بهتر نیست؛ اطلاعات نامرتبط می‌تواند هزینه، زمان و ابهام را
+بیشتر کند.
+</p>
+<p>
+بین «کاربر می‌گوید پرداخت تکراری شده» و «سامانهٔ پرداخت تکرار را تأیید
+کرده» فرق بگذارید. اولی ادعای ثبت‌شده در پیام است؛ دومی واقعیتی است که
+باید از سامانهٔ معتبر گرفته شود. اگر این دو را در یک فیلد با نام مبهم قرار
+دهید، هم مدل و هم توسعه‌دهندهٔ بعدی ممکن است مرز میان ادعا و تأیید را گم
+کنند. نام‌گذاری خوب بخشی از طراحی داده است.
+</p>
+<p>
+برای دادهٔ گمشده قرارداد روشن داشته باشید. نبودن فیلد <bdi dir="ltr">prior_contacts</bdi> نباید
+خودکار به معنای صفر تماس قبلی باشد. مقدار تهی، فهرست خالی و صفر ممکن است
+معانی متفاوتی داشته باشند. سؤال باید روشن کند از «نبود نشانه در همین پیام»
+حرف می‌زند یا از «نبود رویداد در کل سابقهٔ مشتری». مدل بدون دریافت سابقه
+نمی‌تواند آن سابقه را ببیند.
+</p>
+<p>
+مقرراتی که برنامه برای محاسبه نیاز دارد، در صورت امکان ساخت‌یافته باشند.
+مثلاً <bdi dir="ltr">refund_window_days</bdi> برابر عدد مشخص باشد تا کد تاریخ‌ها را مقایسه کند.
+توضیح استثناهای زبانی می‌تواند در یک فیلد جدا قرار گیرد. با این روش، قواعد
+دقیق در محاسبه باقی می‌مانند و تنها بخش تفسیرپذیر متن به مدل می‌رسد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Snapshot</bdi> یعنی نسخه‌ای از اطلاعات در یک لحظه. آن را با حافظهٔ دائمی مدل
+اشتباه نگیرید. برای تصمیم تازه باید دادهٔ موردنیاز را در درخواست تازه
+فراهم کنید. اگر نتیجهٔ قبلی را لازم دارید، برنامه باید خودش آن را ذخیره و
+با معنای روشن وارد درخواست بعدی کند.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>یک <bdi dir="ltr">state</bdi> با جداسازی ادعای کاربر و دادهٔ سامانه <bdi dir="ltr">json</bdi></span>
+<button class="copy" type="button" data-code="code-1">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-1" data-language="json">{
+  &quot;ticket&quot;: {
+    &quot;id&quot;: &quot;ticket-481&quot;,
+    &quot;messages&quot;: [
+      {
+        &quot;role&quot;: &quot;customer&quot;,
+        &quot;text&quot;: &quot;برای یک سفارش دوبار پول کم شده؛ لطفاً بررسی کنید.&quot;
+      }
+    ]
+  },
+  &quot;verified_payment_facts&quot;: {
+    &quot;duplicate_confirmed&quot;: false,
+    &quot;verification_status&quot;: &quot;not_checked&quot;
+  },
+  &quot;task_scope&quot;: &quot;Classify the customer's request, not payment eligibility.&quot;
+}</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+</div>
+</section>
+<section class="chapter" id="chapter-7" aria-labelledby="heading-7">
+<div class="chapter-number">فصل ۷</div>
+<h2 id="heading-7">پرسش و معیار: instructions، criteria و شناسه</h2>
+<p>
+هر سؤال از یک نوع و یک دستور تشکیل می‌شود و بسته به نوعش معیار هم دارد.
+<bdi dir="ltr">instructions</bdi> می‌گوید چه چیزی باید بررسی شود. <bdi dir="ltr">criteria</bdi> معنی پاسخ‌های ممکن
+را توضیح می‌دهد. کلید سؤال، مانند <bdi dir="ltr">requests_human_agent</bdi>، به برنامه کمک
+می‌کند پاسخ را پیدا کند. طبق مستندات <bdi dir="ltr">TypeSafe</bdi> این کلید به مدل فرستاده
+نمی‌شود؛ پس یک نام خوب جای دستور کامل را نمی‌گیرد.
+</p>
+<p>
+مثلاً دستور «درخواست؟» بسیار ناقص است. دستور «آیا نویسندهٔ آخرین پیامِ
+مشتری صریحاً درخواست گفت‌وگو با کارشناس پشتیبانی کرده است؟» محدوده، گوینده
+و رفتار مورد بررسی را مشخص می‌کند. اگر معیار شما فقط درخواست صریح را
+می‌پذیرد، جملهٔ «شما ربات هستید؟» نباید بدون بررسی برابر با درخواست تماس
+انسانی در نظر گرفته شود.
+</p>
+<p>
+مرز معیار باید به سیاست محصول متصل باشد. برای یک محصول، هر اشاره به کلافگی
+ممکن است باعث پیشنهاد کارشناس شود؛ برای محصول دیگری تنها درخواست صریح
+اهمیت دارد. هیچ <bdi dir="ltr">prompt</bdi> عمومی نمی‌تواند جای تصمیم محصول را بگیرد. ابتدا
+معنی برچسب را بنویسید، چند مثال مرزی اضافه کنید و سپس کیفیت مدل را بسنجید.
+</p>
+<p>
+ساختار <bdi dir="ltr">object</bdi> یا <bdi dir="ltr">array</bdi> در <bdi dir="ltr">instructions</bdi> زمانی مفید است که سؤال همراه دادهٔ
+مخصوص خودش باشد. برای مثال، <bdi dir="ltr">state</bdi> یک سند تازه است و هر سؤال مشخص می‌کند
+آیا سند با یک رکورد مشخص مطابقت دارد. آن رکورد می‌تواند داخل <bdi dir="ltr">instructions</bdi>
+همان سؤال قرار گیرد. اما دادهٔ مشترک را بی‌دلیل در تمام سؤال‌ها تکرار
+نکنید؛ هزینه و خوانایی را هم در نظر بگیرید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Rubric</bdi> یعنی دستورالعمل داوری: شرح روشن اینکه چه وضعیت‌هایی به چه برچسب یا
+سطحی تعلق دارند. یک <bdi dir="ltr">rubric</bdi> خوب باعث می‌شود دو انسان تا حد امکان به یک
+تصمیم برسند. اگر خود انسان‌ها دائم اختلاف دارند، باید تعریف مسئله یا نیاز
+به مسیر «نامشخص» را بررسی کرد.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>نمونهٔ سؤال با مرز روشن <bdi dir="ltr">json</bdi></span>
+<button class="copy" type="button" data-code="code-2">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-2" data-language="json">{
+  &quot;requests_human_agent&quot;: {
+    &quot;type&quot;: &quot;noul&quot;,
+    &quot;instructions&quot;: &quot;Does the latest customer message explicitly ask to speak with a human support agent?&quot;,
+    &quot;criteria&quot;: {
+      &quot;true&quot;: &quot;An explicit request for a person, specialist, or human support agent.&quot;,
+      &quot;false&quot;: &quot;No explicit request, including merely asking whether the assistant is a bot.&quot;
+    }
+  }
+}</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-8" aria-labelledby="heading-8">
+<div class="chapter-number">فصل ۸</div>
+<h2 id="heading-8">Noul: احتمالِ درستی یک گزاره</h2>
+<p>
+<bdi dir="ltr">Noul</bdi> برای سؤال بله یا خیر به کار می‌رود. اگر سؤال این باشد که «آیا پیام
+درخواست بازپرداخت دارد؟»، عدد برگشتی احتمال پاسخ بله به همین سؤال است.
+تغییر متن سؤال، موضوع احتمال را تغییر می‌دهد. احتمال ۰٫۸ در سؤال «آیا پیام
+فوری است؟» با ۰٫۸ در سؤال «آیا مبلغ اشتباه است؟» یک معنا ندارد؛ رویداد
+مورد بررسی متفاوت است.
+</p>
+<p>
+نزدیک صفر بودن عدد به معنی شکست مدل نیست. برای پیام «ممنون، مشکل حل شد» و
+سؤال «آیا هنوز درخواست کمک وجود دارد؟»، یک عدد کم ممکن است پاسخ مناسب
+باشد. همین‌طور عدد نزدیک نیم، میزان متوسط ناراحتی نیست. اگر می‌خواهید
+درجهٔ ناراحتی را اندازه بگیرید باید از سطح‌های توصیفی <bdi dir="ltr">Score</bdi> استفاده کنید.
+</p>
+<p>
+اگر یک پیام می‌تواند هم دربارهٔ صورت‌حساب باشد و هم دربارهٔ قطع سرویس، چند
+<bdi dir="ltr">Noul</bdi> مستقل بهتر از یک <bdi dir="ltr">Choice</bdi> با انتخاب اجباری است. هر <bdi dir="ltr">Noul</bdi> یک ویژگی را
+بررسی می‌کند و جمع احتمال‌های آن‌ها لازم نیست یک شود. احتمال دو برچسبِ
+مستقلِ از نظر تعریف می‌تواند هم‌زمان زیاد باشد. البته «مستقل پرسیدن» ثابت
+نمی‌کند آن رویدادها از نظر آماری مستقل‌اند.
+</p>
+<p>
+مرزهای تصمیم را دقیق کدنویسی کنید. مثلاً کوچک‌تر از ۰٫۲۵ «خیر»، بزرگ‌تر یا
+مساوی ۰٫۸۰ «بله» و باقی «بازبینی» باشد. تکلیف نقطهٔ دقیق ۰٫۲۵ و ۰٫۸۰ باید
+روشن باشد. این عددها فقط برای تمرین‌اند. آن‌ها را بدون آزمایش روی دادهٔ
+محصول به رفتار نهایی تبدیل نکنید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+آستانه یا <bdi dir="ltr">Threshold</bdi> عددی است که در کد تعیین می‌کند چه اقدامی انجام شود.
+آستانه جزئی از سیاست برنامه است؛ خود احتمال را تغییر نمی‌دهد. با جابه‌جا
+کردن آستانه می‌توانید تعداد پرونده‌های خودکار و خطاهای آن‌ها را کم‌وزیاد
+کنید، بدون اینکه مدل را دوباره اجرا کنید.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>تابع کامل و قابل آزمون برای <bdi dir="ltr">Noul</bdi> <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-3">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-3" data-language="python">import math
+
+def classify_probability(p: float) -&gt; str:
+    if isinstance(p, bool) or not isinstance(p, (int, float)):
+        raise ValueError(&quot;Probability must be a number&quot;)
+    if not math.isfinite(p) or not 0 &lt;= p &lt;= 1:
+        raise ValueError(&quot;Probability must be finite and within [0, 1]&quot;)
+    if p &lt; 0.25:
+        return &quot;no&quot;
+    if p &gt;= 0.80:
+        return &quot;yes&quot;
+    return &quot;review&quot;</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+</div>
+</section>
+<section class="chapter" id="chapter-9" aria-labelledby="heading-9">
+<div class="chapter-number">فصل ۹</div>
+<h2 id="heading-9">Choice: یک انتخاب از گزینه‌های تعریف‌شده</h2>
+<p>
+<bdi dir="ltr">Choice</bdi> زمانی مناسب است که خروجی برنامه باید یکی از چند گزینهٔ معلوم باشد.
+در یک سامانهٔ تیکت، خروجی می‌تواند <bdi dir="ltr">billing</bdi>، <bdi dir="ltr">technical</bdi> یا <bdi dir="ltr">other</bdi> باشد.
+شناسهٔ هر گزینه برای کد مناسب است و توضیح آن معنای انسانی را به مدل
+می‌دهد. بهتر است «مشکلات ورود، خطای نرم‌افزار و اختلال سرویس» را برای
+<bdi dir="ltr">technical</bdi> توضیح دهید تا صرفاً به نام کوتاه آن تکیه کنید.
+</p>
+<p>
+در پاسخ، <bdi dir="ltr">choice</bdi> گزینهٔ انتخاب‌شده و <bdi dir="ltr">probabilities</bdi> احتمال گزینه‌ها را نشان
+می‌دهد. اگر <bdi dir="ltr">billing</bdi> با احتمال ۰٫۵۲ برنده و <bdi dir="ltr">technical</bdi> برابر ۰٫۴۵ باشد،
+برنده بودن به‌تنهایی اختلاف زیادی را نشان نمی‌دهد. بسته به محصول ممکن است
+این انتخاب برای پیشنهاد یک برچسب کافی باشد، ولی برای ارجاع غیرقابل بازگشت
+پرونده مناسب نباشد. تصمیم عملی باید متناسب با اثر انتخاب باشد.
+</p>
+<p>
+اضافه کردن گزینهٔ <bdi dir="ltr">other</bdi> برای مسئله‌های باز مهم است. اگر از پیام «آدرس دفتر
+کجاست؟» فقط میان پرداخت و خطای نرم‌افزار انتخاب بخواهید، گزینهٔ درست وجود
+ندارد. مدل مجبور می‌شود از یک مجموعهٔ ناقص انتخاب کند. احتمال‌ها هم در
+چارچوب همان گزینه‌ها معنا دارند؛ اضافه کردن یک گزینهٔ نزدیک می‌تواند توزیع
+و حتی گزینهٔ برنده را تغییر دهد.
+</p>
+<p>
+برای دسته‌بندی چندبرچسبی از یک <bdi dir="ltr">Choice</bdi> انتظار نداشته باشید تمام ویژگی‌های
+درست را برگرداند. اگر در محصول اجازهٔ دو تیم وجود دارد، خروجی تک‌انتخابی
+با نیاز محصول ناسازگار است. می‌توانید چند <bdi dir="ltr">Noul</bdi> برای وجود ویژگی‌ها و سپس یک
+قانون برای تیم اصلی داشته باشید، یا تعریف «موضوع غالب» را در <bdi dir="ltr">Choice</bdi> روشن
+کنید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Argmax</bdi> نام عملیات پیدا کردن گزینه‌ای است که بزرگ‌ترین مقدار را دارد.
+دانستن برنده با دانستن فاصلهٔ آن از رقیب فرق می‌کند. بررسی گزینهٔ اول و
+دوم برای فهم ابهام مفید است، ولی این فاصله را بدون تعریف، برابر <bdi dir="ltr">confidence</bdi>
+رسمی <bdi dir="ltr">API</bdi> ننامید.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>گزینه‌هایی با توضیح قابل بررسی <bdi dir="ltr">json</bdi></span>
+<button class="copy" type="button" data-code="code-4">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-4" data-language="json">{
+  &quot;department&quot;: {
+    &quot;type&quot;: &quot;choice&quot;,
+    &quot;instructions&quot;: &quot;Which team should handle the primary issue in the customer's message?&quot;,
+    &quot;criteria&quot;: {
+      &quot;billing&quot;: &quot;Charges, invoices, payment failures, refund requests.&quot;,
+      &quot;technical&quot;: &quot;Login failures, application errors, unavailable features.&quot;,
+      &quot;other&quot;: &quot;Requests that do not fit billing or technical support.&quot;
+    }
+  }
+}</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/choice" target="_blank" rel="noopener noreferrer">Choice</a>
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-10" aria-labelledby="heading-10">
+<div class="chapter-number">فصل ۱۰</div>
+<h2 id="heading-10">Score: سطح‌های مرتب و میانگین وزنی</h2>
+<p>
+<bdi dir="ltr">Score</bdi> برای اندازه‌گیری یک بُعد با سطح‌های توصیفی است. مثال مناسب، اثر یک
+خطای نرم‌افزار بر کار کاربر است. سطح صفر می‌تواند مشکل ظاهری بدون اختلال
+کارکرد باشد؛ سطح یک اختلالی با راه‌حل جایگزین؛ سطح دو مسدود شدن کار اصلی
+بدون راه‌حل جایگزین. این تعریف از واژه‌های مبهم «کم، متوسط، زیاد» اطلاعات
+بیشتری به مدل می‌دهد.
+</p>
+<p>
+شمارهٔ هر سطح از جایگاه آن در آرایه می‌آید و از صفر شروع می‌شود. اگر سه
+سطح دارید، بازهٔ <bdi dir="ltr">score</bdi> از صفر تا دو است، نه الزاماً صفر تا یک یا صفر تا
+صد. خروجی می‌تواند اعشاری باشد زیرا میانگین وزنیِ شمارهٔ سطح‌ها با احتمال
+آن‌ها محاسبه می‌شود. برای احتمال‌های ۰٫۱، ۰٫۳ و ۰٫۶، امتیاز برابر ۱٫۵
+خواهد بود.
+</p>
+<p>
+دو توزیع متفاوت می‌توانند امتیاز برابر تولید کنند. توزیع [۰، ۱، ۰] و توزیع
+[۰٫۵، ۰، ۰٫۵] هر دو امتیاز یک دارند. اولی روی سطح میانی متمرکز است؛ دومی
+میان دو انتها تقسیم شده است. پس ذخیره کردن فقط <bdi dir="ltr">score</bdi> ممکن است اطلاعات مهمی
+را حذف کند. هنگام بازبینی، <bdi dir="ltr">probabilities</bdi> و شرح سطح‌ها را هم نگه دارید.
+</p>
+<p>
+هر سطح باید به‌تنهایی قابل فهم باشد. نوشتن «شدیدتر از قبلی» کافی نیست؛
+مستندات می‌گوید مدل شرح هر سطح را مستقل بررسی می‌کند و شماره یا همسایهٔ آن
+را به آن شکل نمی‌بیند. همچنین یک سطح را با چند بُعد نامرتبط مانند «فوری،
+گران و ناراحت‌کننده» نسازید. فوریت زمانی، هزینه و ناراحتی بهتر است جدا
+اندازه‌گیری شوند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+میانگین وزنی یعنی هر شماره را در احتمال آن ضرب کنیم و حاصل‌ها را جمع
+بزنیم. این فرمول شدتِ واقعی پدیده را کشف نمی‌کند؛ موقعیت میان سطح‌هایی را
+نشان می‌دهد که خودتان تعریف کرده‌اید. تغییر تعریف سطح‌ها، معنای امتیاز را
+عوض می‌کند.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>محاسبهٔ آموزشی <bdi dir="ltr">Score</bdi>، بدون مدل <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-5">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-5" data-language="python">probabilities = [0.10, 0.30, 0.60]
+score = sum(level * probability
+            for level, probability in enumerate(probabilities))
+assert abs(score - 1.50) &lt; 1e-9
+print(score)</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/score" target="_blank" rel="noopener noreferrer">Score</a>
+</div>
+</section>
+<section class="chapter" id="chapter-11" aria-labelledby="heading-11">
+<div class="chapter-number">فصل ۱۱</div>
+<h2 id="heading-11">Probability، confidence و کالیبراسیون</h2>
+<p>
+<bdi dir="ltr">Probability</bdi> احتمال یک پاسخ مشخص در چارچوب سؤال است. <bdi dir="ltr">confidence</bdi> در پاسخ
+<bdi dir="ltr">Choice</bdi> و <bdi dir="ltr">Score</bdi> در <bdi dir="ltr">TypeSafe</bdi> خلاصه‌ای از شکل توزیع احتمال است. مستندات عمومی
+آن را عددی مشتق از توزیع معرفی می‌کند، اما نباید فرمول دلخواه خودمان را به
+<bdi dir="ltr">Jev</bdi> نسبت دهیم. دربارهٔ <bdi dir="ltr">Laya</bdi> می‌توان فرمول موجود در کد را دید و در فصل
+مربوط توضیح داد. قرارداد این دو ابزار را یکی فرض نکنید.
+</p>
+<p>
+توزیع متمرکز یعنی مدل در این خروجی به یک گزینه وزن بیشتری داده است. این
+موضوع درست بودن ورودی، کافی بودن گزینه‌ها یا درست بودن دادهٔ پایگاه داده
+را ثابت نمی‌کند. ممکن است پیام شامل نقل قول باشد، معیار ناقص باشد یا مدل
+در یک دامنهٔ تازه اشتباه کند و باز هم جواب متمرکز بدهد. برای سنجش کیفیت
+باید پاسخ را با برچسب معتبر مقایسه کنید.
+</p>
+<p>
+کالیبراسیون به مجموعه‌ای از پیش‌بینی‌ها مربوط است. اگر در تعداد زیادی مورد
+مشابه، مدل احتمال نزدیک ۰٫۸ گزارش کرده، انتظار داریم در یک مدل خوب‌کالیبره
+حدود همان نسبت از آن گزاره‌ها درست باشند. این توضیح به معنای تضمین نتیجهٔ
+تک‌تک پرونده‌ها نیست. برای یک پیام منفرد نمی‌توانید با قطعیت بگویید «این
+جواب ۸۰٪ صحیح است» بدون توجه به معنای سؤال و جامعهٔ ارزیابی.
+</p>
+<p>
+کالیبراسیون ممکن است با تغییر زبان، نوع مشتری، متن سؤال و توزیع داده خراب
+شود. مدلی که روی پیام‌های انگلیسی پشتیبانی خوب عمل کرده، الزاماً روی
+گفت‌وگوی فارسیِ محاوره‌ای همان رفتار را ندارد. اندازه‌گیریِ کلی هم ممکن
+است خطای یک گروه کوچک را پنهان کند. نتایج فارسی، انگلیسی، متن‌های کوتاه و
+پیام‌های چندموضوعی را جدا بررسی کنید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">False positive</bdi> یعنی سیستم وجود چیزی را اعلام کند که در برچسب معتبر وجود
+ندارد؛ مثلاً پیام را درخواست بازپرداخت بداند درحالی‌که کاربر صریحاً آن را
+رد کرده است. <bdi dir="ltr">False negative</bdi> عکس آن است. اینکه کدام خطا گران‌تر است،
+آستانهٔ مناسب محصول را تغییر می‌دهد.
+</p>
+</aside>
+<p>
+یک آستانه برای تمام سؤال‌ها معمولاً انتخاب بی‌دلیلی است. پیشنهاد برچسب
+قابل ویرایش با مسدود کردن حساب اثر یکسانی ندارد. برای شروع، تصمیم را قابل
+برگشت نگه دارید، نرخ بازبینی را اندازه بگیرید و عددها را بر اساس شواهد
+تنظیم کنید. زیاد شدن <bdi dir="ltr">confidence</bdi> به‌تنهایی نشان نمی‌دهد بازنویسی <bdi dir="ltr">prompt</bdi>
+بهتر شده است؛ ممکن است مدل فقط مطمئن‌تر اشتباه کند.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer">Confidence</a>
+</div>
+</section>
+<section class="chapter" id="chapter-12" aria-labelledby="heading-12">
+<div class="chapter-number">فصل ۱۲</div>
+<h2 id="heading-12">داخل مدل: از متن تا بردار و احتمال</h2>
+<p>
+این فصل دو سطح دارد: توضیح عمومی شبکه‌های متنی و جزئیات قابل مشاهدهٔ <bdi dir="ltr">Laya.</bdi>
+توضیح عمومی برای درک محاسبه است و نباید تمام آن را بدون مدرک به معماری
+بستهٔ <bdi dir="ltr">Jev</bdi> نسبت داد. دربارهٔ <bdi dir="ltr">Jev</bdi> منابع رسمی از خروجی ساخت‌یافته، آموزش برای
+تصمیم کالیبره و پرسش‌های مستقل صحبت می‌کنند. تعداد لایه‌ها، شکل دقیق سر
+خروجی و جزئیات وزن‌ها را از این اطلاعات نمی‌توان نتیجه گرفت.
+</p>
+<p>
+اولین مرحله معمولاً توکن‌سازی است. متن به قطعه‌هایی تبدیل می‌شود که هر
+کدام شناسهٔ عددی دارند. توکن لزوماً یک کلمه نیست؛ ممکن است بخشی از کلمه یا
+نشانه باشد. یک جملهٔ فارسی و ترجمهٔ انگلیسی آن می‌توانند تعداد توکن
+متفاوتی داشته باشند. بنابراین محدودیت توکن را با تعداد حروف یا تعداد
+واژه‌ها برابر نگیرید.
+</p>
+<p>
+شناسه‌ها وارد لایهٔ نمایش عددی می‌شوند و برای هر موقعیت برداری ساخته
+می‌شود. بردار فهرستی از اعداد است که مدل در طول آموزش یاد گرفته چگونه از
+آن استفاده کند. سپس لایه‌های پردازش، نمایش هر بخش را با توجه به زمینه
+تغییر می‌دهند. در عبارت «درخواست بازپرداخت ندارم»، حضور «ندارم» باید تفسیر
+«بازپرداخت» را تغییر دهد؛ داشتن کلمهٔ کلیدی به‌تنهایی کافی نیست.
+</p>
+<p>
+در یک مدل تصمیم‌گیری، خروجی محاسبات به چند امتیاز عددی برای پاسخ‌های ممکن
+می‌رسد. این امتیازهای پیش از تبدیل به احتمال را <bdi dir="ltr">logits</bdi> می‌نامند. تابعی
+مانند <bdi dir="ltr">softmax</bdi> امتیازها را به مقدارهای غیرمنفی با جمع یک تبدیل می‌کند. وجود
+<bdi dir="ltr">softmax</bdi> فقط شکل یک توزیع را می‌سازد؛ آموزش مناسب و ارزیابی لازم است تا آن
+عددها با واقعیت هم‌خوان باشند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Embedding</bdi> همان نمایش برداری است. <bdi dir="ltr">Attention</bdi> روشی برای وزن دادن به ارتباط
+بخش‌های ورودی است. <bdi dir="ltr">Logit</bdi> امتیاز پیش از تبدیل به احتمال است. این واژه‌ها
+مراحل محاسبات عددی را نام‌گذاری می‌کنند؛ نشانهٔ داشتن فهم انسانی یا دسترسی
+پنهان به پایگاه داده نیستند.
+</p>
+</aside>
+<p>
+در زمان اجرا، مدل از وزن‌هایی استفاده می‌کند که قبلاً آموزش دیده‌اند.
+فرستادن یک پیام معمولی به <bdi dir="ltr">API</bdi> به معنای آموزش فوری مدل روی آن پیام نیست.
+ذخیره، نگه‌داری یا استفادهٔ ارائه‌دهنده از داده موضوع سیاست سرویس است و
+باید از شرایط جاری همان سرویس بررسی شود. دربارهٔ آن از شکل <bdi dir="ltr">JSON</bdi> یا نام
+«هوشمند» نتیجه‌گیری نکنید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">System One</a>
+<a href="https://docs.typesafe.ai/introduction/machine-learning-primer" target="_blank" rel="noopener noreferrer">آموزش و RLCD در TypeSafe</a>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/common.py" target="_blank" rel="noopener noreferrer">ساخت دنباله و شبکهٔ Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-13" aria-labelledby="heading-13">
+<div class="chapter-number">فصل ۱۳</div>
+<h2 id="heading-13">معماری Laya در کد عمومی</h2>
+<p>
+در کد بررسی‌شدهٔ <bdi dir="ltr">Laya</bdi>، فایل <bdi dir="ltr">common.py</bdi> تابعی به نام <bdi dir="ltr">build_sequence</bdi> دارد.
+این تابع برای هر سؤال رشتهٔ ورودی مدل را می‌سازد: نشانگر شروع، نوع سؤال و
+دستور، جداکننده، نشانگرهای گزینه و متن گزینه‌ها، سپس <bdi dir="ltr">state</bdi> و جداکنندهٔ
+پایان. این توصیف از کد عمومی گرفته شده و می‌توان آن را در منبع فصل بررسی
+کرد؛ توضیحی حدسی دربارهٔ <bdi dir="ltr">Jev</bdi> نیست.
+</p>
+<p>
+نشانگر هر گزینه یک جای مشخص در دنباله دارد. پس از پردازش ورودی توسط
+<bdi dir="ltr">encoder</bdi>، مدل بردار مربوط به این جایگاه‌ها را برمی‌دارد. یک شبکهٔ امتیازدهی
+برای هر گزینه مقدار <bdi dir="ltr">logit</bdi> تولید می‌کند. کد همچنین <bdi dir="ltr">embedding</bdi> مربوط به نوع
+سؤال و یک لایهٔ تصمیم‌گیری قابل تنظیم دارد. این ساختار کمک می‌کند یک مدل
+بر اساس متن سؤال و گزینه‌ها به مسئله‌های متفاوت پاسخ دهد.
+</p>
+<p>
+در فایل <bdi dir="ltr">agent.py</bdi>، سؤال‌ها به دنباله‌های ورودی تبدیل و برای اجرا آماده
+می‌شوند. امتیازها با دمای تنظیم‌شده مقیاس می‌گیرند و به احتمال تبدیل
+می‌شوند. برای <bdi dir="ltr">Choice</bdi> گزینهٔ برنده، برای <bdi dir="ltr">Score</bdi> میانگین سطح‌ها و برای <bdi dir="ltr">Noul</bdi>
+احتمال گزینهٔ بله بازسازی می‌شود. بنابراین ظاهر مشترک <bdi dir="ltr">API</bdi> از یک لایهٔ
+آماده‌سازی و یک لایهٔ تبدیل خروجی هم تأثیر می‌گیرد؛ فقط وزن شبکه نیست.
+</p>
+<p>
+کد عمومی یک سر جداگانه برای خروجی‌های عمل نیز دارد. وجود این سر به این
+معنی نیست که هر برنامهٔ شما باید مستقیماً آن را اجرا کند. مثال‌های این
+کتاب از پاسخ‌های سؤال‌ها برای ساختن تصمیم در کد استفاده می‌کنند. ویژگی‌های
+جانبی را تنها وقتی وارد برنامه کنید که قراردادشان را در نسخهٔ نصب‌شده
+بررسی کرده باشید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Encoder</bdi> شبکه‌ای است که ورودی را به نمایش عددی وابسته به زمینه تبدیل
+می‌کند. در <bdi dir="ltr">checkpoint</bdi> انگلیسی معرفی‌شده در <bdi dir="ltr">README</bdi>، خانوادهٔ <bdi dir="ltr">ModernBERT</bdi> و
+در <bdi dir="ltr">checkpoint</bdi> چندزبانه خانوادهٔ <bdi dir="ltr">mmBERT</bdi> ذکر شده است. <bdi dir="ltr">checkpoint</bdi> مجموعهٔ
+مشخصی از وزن‌ها و تنظیمات آموزش‌دیده است.
+</p>
+</aside>
+<p>
+در کد بررسی‌شده، <bdi dir="ltr">confidence</bdi> مربوط به گزینه‌ها از آنتروپی نرمال‌شده محاسبه
+می‌شود: یک منهای آنتروپی تقسیم بر لگاریتم تعداد گزینه‌ها. برای <bdi dir="ltr">Noul</bdi> همین
+پروژه ممکن است <bdi dir="ltr">confidence</bdi> دیگری هم برگرداند؛ درحالی‌که قرارداد <bdi dir="ltr">Noul</bdi> در
+<bdi dir="ltr">TypeSafe confidence</bdi> جدا ندارد. این تفاوت کوچک برای مهاجرت مهم است و نشان
+می‌دهد نام‌های مشابه، سازگاری کامل خروجی را تضمین نمی‌کنند.
+</p>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>ساختار ورودی <bdi dir="ltr">Laya</bdi> در <bdi dir="ltr">build_sequence</bdi> <bdi dir="ltr">text</bdi></span>
+<button class="copy" type="button" data-code="code-6">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-6" data-language="text">[CLS]
+question_type + instructions
+[SEP]
+[MASK] option_0
+[MASK] option_1
+...
+[SEP]
+serialized_state
+[SEP]
+
+encoder -&gt; contextual vectors -&gt; option markers
+        -&gt; decision scorer -&gt; logits -&gt; probabilities</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/common.py" target="_blank" rel="noopener noreferrer">ساخت دنباله و شبکهٔ Laya</a>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/agent.py" target="_blank" rel="noopener noreferrer">اجرای مدل و بازسازی پاسخ Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-14" aria-labelledby="heading-14">
+<div class="chapter-number">فصل ۱۴</div>
+<h2 id="heading-14">تولید تدریجی متن و اجرای غیرخودرگرسیو</h2>
+<p>
+مدل مولدِ خودرگرسیو معمولاً خروجی را قطعه‌به‌قطعه می‌سازد؛ هر توکن تازه به
+خروجی قبلی وابسته است. وقتی از چنین مدلی <bdi dir="ltr">JSON</bdi> می‌خواهید، همچنان باید
+کاراکترها و توکن‌های لازم برای آن پاسخ ساخته شوند. بعضی سامانه‌ها تولید را
+به <bdi dir="ltr">schema</bdi> محدود می‌کنند، اما هزینه و رفتار تولید متن همچنان با یک شبکهٔ
+تصمیم‌گیری مستقیم فرق دارد.
+</p>
+<p>
+<bdi dir="ltr">Laya</bdi> خود را <bdi dir="ltr">non-autoregressive</bdi> معرفی می‌کند: برای تصمیم تعریف‌شده، توکن
+خروجی را یکی‌یکی تولید نمی‌کند. ورودی‌ها در شبکه پردازش می‌شوند و سر تصمیم
+امتیاز گزینه‌ها را می‌دهد. این ویژگی می‌تواند تأخیر را کم کند، به‌ویژه
+برای سؤال‌های محدود. ولی زمان نهایی شامل آماده‌سازی، توکن‌سازی، جابه‌جایی
+داده، اندازهٔ <bdi dir="ltr">batch</bdi> و بار سیستم هم هست.
+</p>
+<p>
+«یک <bdi dir="ltr">forward pass</bdi>» یعنی یک عبور محاسباتی رو به جلو از شبکه برای ورودی یا
+<bdi dir="ltr">batch</bdi> موردنظر. معنی‌اش این نیست که هر تعداد سند و سؤال با هر طولی در زمان
+ثابت اجرا می‌شوند. افزایش تعداد سؤال‌ها می‌تواند <bdi dir="ltr">batch</bdi> بزرگ‌تر و مصرف
+حافظهٔ بیشتر بسازد. در <bdi dir="ltr">API</bdi> میزبانی‌شده، صف و زمان شبکه هم به زمان
+مشاهده‌شده توسط کاربر اضافه می‌شود.
+</p>
+<p>
+عبارت تبلیغاتی «متن تولید نمی‌کند، پس توهم ندارد» را دقیق‌تر بخوانید. مدل
+نمی‌تواند یک پاراگراف جعلی از خودش تولید کند، اما همچنان می‌تواند برچسب
+نادرست یا احتمال نامناسب بدهد. برای محصول، اشتباه در یک برچسب هم مهم است.
+حذف تولید متن، یک نوع خطا را کاهش می‌دهد؛ تمام انواع خطا را از بین
+نمی‌برد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Latency</bdi> مدت انتظار یک درخواست است. <bdi dir="ltr">Throughput</bdi> تعداد درخواست یا سؤال
+پردازش‌شده در واحد زمان است. ممکن است <bdi dir="ltr">batch</bdi> بزرگ توان پردازشی را بهتر کند
+ولی زمان انتظار یک مورد را بیشتر کند. هنگام انتخاب سخت‌افزار و مقایسهٔ
+سرویس‌ها هر دو را جدا اندازه بگیرید.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+<a href="https://huggingface.co/convaiinnovations/laya" target="_blank" rel="noopener noreferrer">مدل‌کارت Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-15" aria-labelledby="heading-15">
+<div class="chapter-number">فصل ۱۵</div>
+<h2 id="heading-15">آموزش مدل، RLCD و تفاوت آن با اجرای عادی</h2>
+<p>
+آموزش مرحله‌ای است که وزن‌های مدل با استفاده از داده و تابع هدف تغییر
+می‌کنند. اجرای عادی یا <bdi dir="ltr">inference</bdi> مرحله‌ای است که همان وزن‌ها برای ورودی
+جدید به کار می‌روند. این دو را از هم جدا کنید: نوشتن یک سؤال تازه، تنظیم
+یک آستانه یا اضافه کردن چند مثال در <bdi dir="ltr">state</bdi> لزوماً <bdi dir="ltr">fine-tuning</bdi> نیست. این
+تغییرها رفتارِ ورودی و سیاست برنامه را عوض می‌کنند.
+</p>
+<p>
+<bdi dir="ltr">TypeSafe</bdi> در توضیح رسمی خود از <bdi dir="ltr">RLCD</bdi>، یعنی یادگیری تقویتی برای تصمیم‌های
+کالیبره، صحبت می‌کند. ایدهٔ اصلی این است که کیفیت پاسخ تنها با انتخاب
+گزینهٔ برنده سنجیده نشود؛ توزیع احتمال نیز ارزش‌گذاری شود. اگر یک مورد
+واقعاً مبهم است، سامانهٔ آموزشی باید گزارش صادقانهٔ عدم قطعیت را تشویق
+کند، نه اعلام اطمینان بی‌دلیل را.
+</p>
+<p>
+در مدل‌کارت <bdi dir="ltr">Laya</bdi> هم پاداش‌های مبتنی بر <bdi dir="ltr">proper scoring rules</bdi> توضیح داده
+شده‌اند. این‌ها قواعد امتیازدهی‌اند که در شرایط نظری مشخص، گزارش احتمال
+درست را بهینه می‌کنند. اما استفاده از چنین تابع هدفی به معنای کالیبراسیون
+بی‌نقص روی تمام زبان‌ها، دامنه‌ها و داده‌های آینده نیست. کیفیت دادهٔ
+آموزش، ظرفیت مدل و تغییر توزیع ورودی همچنان اثر دارند.
+</p>
+<p>
+برای فهم ملموس، دو پیش‌بینی را تصور کنید که هر دو گزینهٔ درست را انتخاب
+کرده‌اند، اما یکی برای یک مورد مبهم احتمال ۰٫۵۵ و دیگری ۰٫۹۹ اعلام کرده
+است. معیار فقطِ درست/غلط این تفاوت را نمی‌بیند. معیار احتمال‌محور در
+مواردی که پیش‌بینی بسیار مطمئن اشتباه از آب درآید، جریمهٔ بیشتری می‌دهد.
+در نتیجه، کیفیت احتمال نیز موضوع یادگیری می‌شود.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Fine-tuning</bdi> ادامهٔ آموزش وزن‌ها روی دادهٔ مشخص است. <bdi dir="ltr">Temperature scaling</bdi>
+معمولاً تنظیمی پس از آموزش برای تغییر تیزی توزیع است. تغییر <bdi dir="ltr">threshold</bdi> فقط
+سیاست اقدام را عوض می‌کند. این سه کار در سه لایهٔ متفاوت‌اند و نباید با
+یکدیگر اشتباه شوند.
+</p>
+</aside>
+<p>
+برای پروژهٔ تازه، اول مسئله و دادهٔ ارزیابی را درست کنید. اگر مدل آماده
+روی دادهٔ شما ضعیف است، ابتدا شواهد ورودی، تعریف برچسب و محدودیت طول را
+بررسی کنید. سراغ آموزش رفتن پیش از رفع این مشکلات می‌تواند فقط خطاهای
+طراحی را با هزینهٔ بیشتر بازتولید کند.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/introduction/machine-learning-primer" target="_blank" rel="noopener noreferrer">آموزش و RLCD در TypeSafe</a>
+<a href="https://huggingface.co/convaiinnovations/laya" target="_blank" rel="noopener noreferrer">مدل‌کارت Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-16" aria-labelledby="heading-16">
+<div class="chapter-number">فصل ۱۶</div>
+<h2 id="heading-16">توکن، محدودیت زمینه و داده‌ای که ممکن است حذف شود</h2>
+<p>
+مدل تمام یک پایگاه دادهٔ نامحدود را هم‌زمان نمی‌خواند. هر درخواست در
+محدودهٔ طولی مشخصی پردازش می‌شود. در <bdi dir="ltr">Laya</bdi> بررسی‌شده، بودجه‌ای برای قسمت
+سؤال و گزینه‌ها و بودجه‌ای برای <bdi dir="ltr">state</bdi> وجود دارد. اگر مجموع متن‌ها از ظرفیت
+بیشتر شود، بخشی ممکن است کوتاه شود یا درخواست به خطا برسد. پس «فایل را
+فرستادم» مساوی «تمام جمله‌های فایل دیده شدند» نیست.
+</p>
+<p>
+کد <bdi dir="ltr">build_sequence</bdi> طول قسمت گزینه‌ها را با <bdi dir="ltr">head_max_len</bdi> کنترل می‌کند و فضای
+باقیمانده را به <bdi dir="ltr">state</bdi> می‌دهد. هرچه تعداد گزینه‌ها بیشتر شود، فضای توضیح هر
+گزینه می‌تواند محدودتر شود. این برای فهرست‌های طولانی دسته‌ها اهمیت دارد:
+اگر دو عنوان بعد از کوتاه‌سازی شبیه شوند، مدل دیگر اطلاعات لازم برای تمایز
+را ندارد. این مسئله با طولانی‌تر کردن <bdi dir="ltr">prompt</bdi> بدون بررسی بودجه حل نمی‌شود.
+</p>
+<p>
+محدودیت <bdi dir="ltr">checkpoint</bdi>ها و تنظیمات در <bdi dir="ltr">README</bdi> نسخهٔ جاری آمده‌اند؛ مدل انگلیسی
+و چندزبانه الزاماً مقدار یکسان ندارند. حتی اگر <bdi dir="ltr">encoder</bdi> ظرفیت بیشتری داشته
+باشد، لایهٔ آماده‌سازی ممکن است با مقدار کوچک‌تری تنظیم شده باشد. محدودیت
+مؤثر را از تنظیمات واقعی مدل و کد اجرا بررسی کنید و فقط به بیشترین عدد
+تبلیغ‌شده اعتماد نکنید.
+</p>
+<p>
+برای سند بلند، ابتدا واحد تصمیم را مشخص کنید. اگر سؤال دربارهٔ یک بند
+قرارداد است، متن همان بند و زمینهٔ مرتبط را بازیابی کنید. اگر قرار است کل
+سند بررسی شود، آن را با حفظ عنوان، شمارهٔ بخش و هم‌پوشانی لازم قطعه‌بندی
+کنید. سپس نتیجه‌ها را با قانون متناسب ترکیب کنید. نبود ادعا در یک قطعه
+ثابت نمی‌کند در کل سند وجود ندارد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Truncation</bdi> یعنی حذف بخشی از ورودی به خاطر محدودیت طول. <bdi dir="ltr">Chunking</bdi> یعنی
+تقسیمِ طراحی‌شدهٔ متن به بخش‌ها. تفاوت مهم این است که در روش دوم شما
+می‌دانید هر بخش چیست و چگونه باید نتیجه‌ها را کنار هم بگذارید. حذف خام
+ممکن است دقیقاً جملهٔ منفی‌کننده یا استثنای مهم را از بین ببرد.
+</p>
+</aside>
+<p>
+برای آزمون، یک پیام کوتاه بسازید که نتیجهٔ موردنظر روشن باشد. سپس متن
+بی‌ربط به ابتدای آن اضافه کنید و جملهٔ تعیین‌کننده را به انتها ببرید. اگر
+جواب تغییر کرد، قبل از سرزنش مدل بررسی کنید آیا آن جمله هنوز در ورودی
+توکن‌شده جا می‌گیرد. این آزمایش را هم برای متن فارسی و هم برای گزینه‌های
+بلند انجام دهید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/common.py" target="_blank" rel="noopener noreferrer">ساخت دنباله و شبکهٔ Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-17" aria-labelledby="heading-17">
+<div class="chapter-number">فصل ۱۷</div>
+<h2 id="heading-17">فراخوانی TypeSafe: قرارداد HTTP و چرخهٔ درخواست</h2>
+<p>
+درخواست <bdi dir="ltr">HTTP</bdi> به <bdi dir="ltr">endpoint</bdi> رسمی <bdi dir="ltr">systemone</bdi> فرستاده می‌شود. بدنه شامل <bdi dir="ltr">model</bdi>،
+<bdi dir="ltr">state</bdi> و <bdi dir="ltr">questions</bdi> است. هدر <bdi dir="ltr">Authorization</bdi> کلید دسترسی را با پیشوند <bdi dir="ltr">Bearer</bdi>
+حمل می‌کند و <bdi dir="ltr">Content-Type</bdi> نوع بدنه را <bdi dir="ltr">JSON</bdi> اعلام می‌کند. <bdi dir="ltr">SDK</bdi> همین مراحل را
+برای شما بسته‌بندی می‌کند؛ استفاده از <bdi dir="ltr">SDK</bdi> مسئولیتِ تعریف درست سؤال و بررسی
+نتیجهٔ کسب‌وکار را حذف نمی‌کند.
+</p>
+<p>
+چرخه را به چند رخداد قابل مشاهده تقسیم کنید: ساخت ورودی، ارسال، دریافت
+وضعیت <bdi dir="ltr">HTTP</bdi>، خواندن <bdi dir="ltr">JSON</bdi>، اعتبارسنجی پاسخ و تبدیل به تصمیم. اگر درخواست خطا
+داد، مشخص کنید کدام مرحله شکست خورده است. شکست شبکه، رد شدن کلید، بدنهٔ
+نامعتبر و جواب معنایی غلط مسائل متفاوتی‌اند و نباید همگی با پیام «مدل
+اشتباه کرد» گزارش شوند.
+</p>
+<p>
+کلید را در متغیر محیطی سرور یا محل نگه‌داری رازهای استقرار قرار دهید. در
+نمونه‌های این کتاب، کاربر خودش کلید را در محیط فرایند تنظیم می‌کند. فایل
+<bdi dir="ltr">HTML</bdi> آموزشی و کد مرورگر جای کلید نیست. اگر دکمه‌ای در وب‌سایت دارید،
+مرورگر با <bdi dir="ltr">backend</bdi> خودتان صحبت کند و <bdi dir="ltr">backend</bdi> با سرویس مدل ارتباط بگیرد.
+</p>
+<p>
+نام <bdi dir="ltr">jev-latest</bdi> یک <bdi dir="ltr">alias</bdi> است. با گذشت زمان ممکن است به مدل دیگری اشاره کند.
+پاسخ <bdi dir="ltr">model</bdi> را برای تحلیل رفتار ثبت کنید و در صورت نیاز به تکرارپذیری، از
+نسخهٔ مشخصِ واقعاً پشتیبانی‌شده استفاده کنید. نام نسخه را حدس نزنید؛ فهرست
+جاری مدل‌ها و مجوز حساب را بررسی کنید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Timeout</bdi> حداکثر زمانی است که برنامه حاضر است برای درخواست منتظر بماند.
+تعیین <bdi dir="ltr">timeout</bdi> جلوی معطل شدن بی‌پایان را می‌گیرد، اما تضمین نمی‌کند سرویس
+طرف مقابل هیچ پردازشی انجام نداده است. برای اقدام‌های بعدی باید مفهوم
+تکرار درخواست و ثبت وضعیت را جدا طراحی کنید.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>قرارداد سرویس <bdi dir="ltr">TypeSafe</bdi> <bdi dir="ltr">http</bdi></span>
+<button class="copy" type="button" data-code="code-7">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-7" data-language="http">POST https://api.typesafe.ai/v1/systemone
+Authorization: Bearer YOUR_SERVER_SIDE_KEY
+Content-Type: application/json
+
+{
+  &quot;model&quot;: &quot;jev-latest&quot;,
+  &quot;state&quot;: {&quot;message&quot;: &quot;Please connect me to a support specialist.&quot;},
+  &quot;questions&quot;: {
+    &quot;requests_human_agent&quot;: {
+      &quot;type&quot;: &quot;noul&quot;,
+      &quot;instructions&quot;: &quot;Does the customer explicitly request a human support agent?&quot;
+    }
+  }
+}</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-18" aria-labelledby="heading-18">
+<div class="chapter-number">فصل ۱۸</div>
+<h2 id="heading-18">شروع با SDKهای Python و JavaScript</h2>
+<p>
+اگر هدف شما رسیدن سریع به یک اتصال اولیه است، <bdi dir="ltr">SDK</bdi> رسمی مناسب است. در
+<bdi dir="ltr">Python</bdi> دو سبک همگام و ناهمگام وجود دارد. سبک همگام برای اسکریپت کوتاه
+ساده‌تر است؛ سبک ناهمگام در سرویسی که هم‌زمان چند درخواست شبکه‌ای دارد
+مفید است. در هر دو حالت، معنی <bdi dir="ltr">state</bdi> و <bdi dir="ltr">questions</bdi> یکسان است و نباید تفاوت
+نام متدها را با تفاوت مدل اشتباه گرفت.
+</p>
+<p>
+در <bdi dir="ltr">JavaScript</bdi> مستندات رسمی استفاده از <bdi dir="ltr">Node.js</bdi> نسخهٔ ۲۰ یا جدیدتر و بستهٔ
+@<bdi dir="ltr">typesafe-ai/sdk</bdi> را نشان می‌دهد. در <bdi dir="ltr">Python</bdi> نام بستهٔ نصب <bdi dir="ltr">typesafe-sdk</bdi> و
+نام ماژول <bdi dir="ltr">import</bdi> برابر <bdi dir="ltr">typesafe_sdk</bdi> است. نصب در محیط مجازی کمک می‌کند
+وابستگی‌های این پروژه با پروژه‌های دیگر مخلوط نشوند. بعد از نصب، نسخهٔ
+واقعی بسته را ثبت کنید.
+</p>
+<p>
+مثال‌های زیر اتصال واقعی ایجاد می‌کنند و به کلید معتبر نیاز دارند. در این
+فرایند ساخت سند، هیچ فراخوانی پولی <bdi dir="ltr">TypeSafe</bdi> انجام نشده است. بنابراین عدد
+احتمالی‌ای به‌عنوان نتیجهٔ واقعی حساب شما گزارش نمی‌کنیم. بعد از اجرا،
+ابتدا ساختار پاسخ را ببینید و سپس سؤال را با چند نمونهٔ مثبت، منفی و مبهم
+امتحان کنید.
+</p>
+<p>
+همهٔ پروژه‌ها به نصب هر دو <bdi dir="ltr">SDK</bdi> نیاز ندارند. یکی را بر اساس زبان <bdi dir="ltr">backend</bdi>
+انتخاب کنید. اگر فقط <bdi dir="ltr">JavaScript</bdi> در مرورگر دارید، همچنان یک <bdi dir="ltr">backend</bdi> یا تابع
+سروری لازم است تا کلید محرمانه بماند. وجود <bdi dir="ltr">TypeScript</bdi> در پروژه هم ربطی به
+نام <bdi dir="ltr">TypeSafe</bdi> ندارد؛ این سرویس را از زبان‌های مختلف می‌توان استفاده کرد.
+</p>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>نصب <bdi dir="ltr">Python</bdi> در محیط مجازی <bdi dir="ltr">powershell</bdi></span>
+<button class="copy" type="button" data-code="code-8">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-8" data-language="powershell">py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install typesafe-sdk
+$env:TYPESAFE_API_KEY = Read-Host &quot;TypeSafe API key&quot;
+.\.venv\Scripts\python.exe quickstart.py</code></pre>
+</figure>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span><bdi dir="ltr">quickstart.py</bdi> <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-9">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-9" data-language="python">from typesafe_sdk import TypeSafeClient, Noul
+
+with TypeSafeClient() as client:
+    response = client.system_one(
+        model=&quot;jev-latest&quot;,
+        state={&quot;message&quot;: &quot;Please let me speak with a support specialist.&quot;},
+        questions={
+            &quot;requests_human_agent&quot;: Noul(
+                instructions=&quot;Does the customer explicitly request a human support agent?&quot;
+            )
+        },
+    )
+
+print(response.answers[&quot;requests_human_agent&quot;].noul)</code></pre>
+</figure>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span><bdi dir="ltr">quickstart.mjs</bdi>، اجرا با <bdi dir="ltr">Node.js</bdi> <bdi dir="ltr">javascript</bdi></span>
+<button class="copy" type="button" data-code="code-10">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-10" data-language="javascript">import { choice, TypeSafeClient } from &quot;@typesafe-ai/sdk&quot;;
+
+const client = new TypeSafeClient();
+const result = await client.systemOne({
+  state: { message: &quot;I cannot sign in after resetting my password.&quot; },
+  questions: {
+    department: choice(&quot;Which team should handle the primary issue?&quot;, {
+      technical: &quot;Login failures and application errors&quot;,
+      billing: &quot;Invoices, charges, and refunds&quot;,
+      other: &quot;Anything else&quot;
+    })
+  }
+});
+
+console.log(result.answers.department.choice);</code></pre>
+</figure>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+برای مثال <bdi dir="ltr">JavaScript</bdi> ابتدا <bdi dir="ltr">npm install</bdi> @<bdi dir="ltr">typesafe-ai/sdk</bdi> را اجرا کنید، سپس
+متغیر محیطی را تنظیم و <bdi dir="ltr">node quickstart.mjs</bdi> را اجرا کنید. پسوند <bdi dir="ltr">mjs</bdi> استفاده
+از <bdi dir="ltr">import</bdi> را بدون نیاز به تغییر نوع کل <bdi dir="ltr">package</bdi> روشن می‌کند.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/sdk/python" target="_blank" rel="noopener noreferrer">SDK پایتون</a>
+<a href="https://docs.typesafe.ai/sdk/javascript" target="_blank" rel="noopener noreferrer">SDK جاوااسکریپت</a>
+</div>
+</section>
+<section class="chapter" id="chapter-19" aria-labelledby="heading-19">
+<div class="chapter-number">فصل ۱۹</div>
+<h2 id="heading-19">پروژهٔ کامل: طراحی مسیریاب تیکت</h2>
+<p>
+پروژهٔ عملی ما یک مسیریاب تیکت است. ورودی متن پیام و شناسهٔ تیکت است.
+خروجی یک سند تصمیم شامل <bdi dir="ltr">queue</bdi>، دلیل قابل ردگیری در کد و پاسخ‌های خام مدل
+است. پروژه هیچ پولی جابه‌جا نمی‌کند و هیچ ایمیلی نمی‌فرستد؛ محصول این
+مرحله فقط تصمیمی است که می‌توان آن را بازبینی و به سامانهٔ واقعی وصل کرد.
+</p>
+<p>
+سه سؤال داریم: تیم اصلی با <bdi dir="ltr">Choice</bdi>، درخواست ارتباط با کارشناس با <bdi dir="ltr">Noul</bdi> و شدت
+اثر مشکل با <bdi dir="ltr">Score.</bdi> نمونهٔ پیام «ورود به حسابم خطا می‌دهد؛ لطفاً با کارشناس
+صحبت کنم» به‌طور طبیعی هر سه را قابل بررسی می‌کند. پرسش شدت روی اثرِ
+ذکرشده در متن است، نه حدس زدن تعداد کاربران آسیب‌دیده یا وضعیت واقعی سرور.
+</p>
+<p>
+قانون تصمیم را قبل از <bdi dir="ltr">API</bdi> تعریف می‌کنیم. اگر درخواست کارشناس بالا باشد،
+پرونده وارد صف کارشناس می‌شود. اگر این درخواست مبهم باشد، بازبینی لازم
+است. اگر درخواست کارشناس کم و تشخیص تیم روشن باشد، تیم انتخاب می‌شود. اگر
+پاسخ تیم مبهم باشد، بازبینی لازم است. آستانه‌های مثال صرفاً نقطهٔ شروع
+آموزشی‌اند و باید با دادهٔ محصول تنظیم شوند.
+</p>
+<p>
+نمونهٔ کامل از کتابخانهٔ استاندارد <bdi dir="ltr">Python</bdi> استفاده می‌کند تا اتصال <bdi dir="ltr">HTTP</bdi> و
+اعتبارسنجی آشکار باشند. حالت بدون کلید از <bdi dir="ltr">fixture</bdi> محلی استفاده می‌کند و
+کنار خروجی صریحاً مشخص می‌شود که شبیه‌سازی است. حالت --<bdi dir="ltr">live</bdi> به <bdi dir="ltr">TypeSafe</bdi>
+متصل می‌شود. به این ترتیب می‌توانید منطق تصمیم را پیش از داشتن حساب امتحان
+کنید و بعد فقط لایهٔ اجرا را تغییر دهید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Fixture</bdi> یک پاسخ ثابتِ آزمایشی است. هدف آن بررسی کدِ مصرف‌کننده است، نه
+سنجش هوش مدل. اگر با <bdi dir="ltr">fixture</bdi> آزمون پاس شد، فقط می‌دانیم برنامه با آن
+ورودیِ مشخص درست کار می‌کند؛ کیفیت مدل هنوز به آزمون زنده با دادهٔ
+برچسب‌خورده نیاز دارد.
+</p>
+</aside>
+<p>
+فایل‌های همراه همین کتاب در پوشهٔ <bdi dir="ltr">examples</bdi> ارائه شده‌اند. برای شروع، فایل
+<bdi dir="ltr">support_router.py</bdi> را بدون گزینه اجرا کنید. سپس آزمون‌ها را با <bdi dir="ltr">unittest</bdi>
+اجرا کنید. نتیجهٔ هر اجرا باید نشان دهد منبع پاسخ <bdi dir="ltr">fixture</bdi> بوده یا <bdi dir="ltr">live.</bdi>
+این برچسب‌گذاری جلوی اشتباه گرفتن عددهای آموزشی با نتیجهٔ واقعی سرویس را
+می‌گیرد.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-20" aria-labelledby="heading-20">
+<div class="chapter-number">فصل ۲۰</div>
+<h2 id="heading-20">پروژهٔ کامل: خواندن کد از ورودی تا تصمیم</h2>
+<p>
+تابع <bdi dir="ltr">build_request</bdi> دادهٔ ورودی را به قرارداد <bdi dir="ltr">TypeSafe</bdi> تبدیل می‌کند. تعریف
+سؤال‌ها در یک ثابت قرار گرفته تا تغییر آن‌ها قابل مرور باشد. تابع
+<bdi dir="ltr">validate_response</bdi> شکل و حدود عددها را بررسی می‌کند. این بررسی‌ها برای دفاع
+در برابر اشتباه برنامه‌نویسی، تغییر قرارداد یا پاسخ ناقص‌اند؛ قرار نیست
+درست بودن معنای پاسخ را اثبات کنند.
+</p>
+<p>
+تابع <bdi dir="ltr">decide</bdi> هیچ درخواست شبکه‌ای نمی‌فرستد. این ویژگی مهم است زیرا می‌توان
+رفتار آن را با جواب‌های ساختگی کنترل‌شده آزمود. اگر آستانهٔ بازبینی را
+تغییر دهید، آزمون‌های همین تابع نشان می‌دهند رفتار مرزها چه شده است. برای
+اجرای آزمایش روی ده‌ها پیام، لازم نیست هم‌زمان اتصال شبکه و منطق تصمیم را
+تغییر دهید.
+</p>
+<p>
+در اعتبارسنجی <bdi dir="ltr">Noul</bdi>، فقط نوع عددی کافی نیست. مقدار باید متناهی و بین صفر و
+یک باشد؛ <bdi dir="ltr">NaN</bdi> و <bdi dir="ltr">infinity</bdi> پذیرفته نیستند. در <bdi dir="ltr">Python</bdi>، <bdi dir="ltr">bool</bdi> زیرنوع <bdi dir="ltr">int</bdi> است،
+بنابراین باید <bdi dir="ltr">True</bdi> و <bdi dir="ltr">False</bdi> را صریحاً از احتمال عددی جدا کنیم. چنین جزئیاتی
+به‌ظاهر کوچک‌اند، اما اجازه نمی‌دهند پاسخ خراب شبیه جواب معتبر دیده شود.
+</p>
+<p>
+در <bdi dir="ltr">Choice</bdi> باید گزینهٔ منتخب عضو مجموعهٔ تعریف‌شده باشد و کلیدهای
+<bdi dir="ltr">probabilities</bdi> با آن مجموعه سازگار باشند. جمع احتمال‌ها با خطای گرد کردن
+اندک بررسی می‌شود. در <bdi dir="ltr">Score</bdi> محدودهٔ امتیاز به تعداد سطح‌ها وابسته است.
+برای ساده نگه داشتن پروژه، هر ناسازگاری پاسخ به خطای واضح تبدیل می‌شود تا
+تصمیم خودکار بر مبنای دادهٔ ناقص ساخته نشود.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Validation</bdi> یعنی بررسی قراردادِ شکل و دامنهٔ مقدار. <bdi dir="ltr">Evaluation</bdi> یعنی بررسی
+کیفیت پاسخ نسبت به واقعیت یا برچسب معتبر. این دو مرحله مکمل‌اند. ممکن است
+یک پاسخ کاملاً معتبر از نظر <bdi dir="ltr">JSON</bdi> و دامنهٔ عدد، از نظر معنا غلط باشد.
+</p>
+</aside>
+<p>
+پس از اجرا، فایل تصمیم را با پیام ورودی کنار هم بخوانید. اگر <bdi dir="ltr">queue</bdi>
+غیرمنتظره بود، ابتدا ببینید کدام شرط <bdi dir="ltr">decide</bdi> آن را انتخاب کرده است؛ سپس
+احتمالِ مؤثر و متن سؤال را بررسی کنید. تغییر کورکورانهٔ چند <bdi dir="ltr">threshold</bdi> و
+چند سؤال با هم، فهم علت بهبود یا افت را دشوار می‌کند.
+</p>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span><bdi dir="ltr">support_router.py</bdi>، فایل کامل قابل اجرا <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-11">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-11" data-language="python">&quot;&quot;&quot;Educational ticket router. Default mode uses a clearly labelled fixture.&quot;&quot;&quot;
+from __future__ import annotations
+
+import argparse
+import copy
+import json
+import math
+import os
+import sys
+import urllib.error
+import urllib.request
+from typing import Any
+
+ENDPOINT = &quot;https://api.typesafe.ai/v1/systemone&quot;
+QUESTION_VERSION = &quot;support-routing-1&quot;
+DEPARTMENTS = {&quot;billing&quot;, &quot;technical&quot;, &quot;other&quot;}
+REVIEW_LOW = 0.25
+HUMAN_HIGH = 0.80
+CHOICE_MIN = 0.75
+CONFIDENCE_MIN = 0.50
+
+QUESTIONS = {
+    &quot;department&quot;: {
+        &quot;type&quot;: &quot;choice&quot;,
+        &quot;instructions&quot;: (
+            &quot;Which team should handle the primary issue &quot;
+            &quot;in the latest customer message?&quot;
+        ),
+        &quot;criteria&quot;: {
+            &quot;billing&quot;: &quot;Charges, invoices, payment failures, refund requests.&quot;,
+            &quot;technical&quot;: &quot;Login failures, application errors, broken features.&quot;,
+            &quot;other&quot;: &quot;Requests outside billing and technical support.&quot;,
+        },
+    },
+    &quot;requests_human_agent&quot;: {
+        &quot;type&quot;: &quot;noul&quot;,
+        &quot;instructions&quot;: (
+            &quot;Does the latest customer message explicitly request &quot;
+            &quot;speaking with a human support agent?&quot;
+        ),
+        &quot;criteria&quot;: {
+            &quot;true&quot;: &quot;An explicit request for a human agent or specialist.&quot;,
+            &quot;false&quot;: &quot;No explicit request; asking if this is a bot is not enough.&quot;,
+        },
+    },
+    &quot;impact&quot;: {
+        &quot;type&quot;: &quot;score&quot;,
+        &quot;instructions&quot;: (
+            &quot;What functional impact does the customer report? &quot;
+            &quot;Use only stated evidence, not assumptions about other users.&quot;
+        ),
+        &quot;criteria&quot;: [
+            &quot;No functional failure is reported.&quot;,
+            &quot;A feature is impaired but a usable workaround is stated.&quot;,
+            &quot;The customer's main task is blocked with no stated workaround.&quot;,
+        ],
+    },
+}
+
+FIXTURE = {
+    &quot;model&quot;: &quot;educational-fixture&quot;,
+    &quot;answers&quot;: {
+        &quot;department&quot;: {
+            &quot;type&quot;: &quot;choice&quot;,
+            &quot;choice&quot;: &quot;technical&quot;,
+            &quot;probabilities&quot;: {&quot;billing&quot;: 0.05, &quot;technical&quot;: 0.90, &quot;other&quot;: 0.05},
+            # Illustrative metadata, not a claimed Jev calculation.
+            &quot;confidence&quot;: 0.72,
+        },
+        &quot;requests_human_agent&quot;: {&quot;type&quot;: &quot;noul&quot;, &quot;noul&quot;: 0.92},
+        &quot;impact&quot;: {
+            &quot;type&quot;: &quot;score&quot;,
+            &quot;score&quot;: 1.8,
+            &quot;probabilities&quot;: {&quot;0&quot;: 0.05, &quot;1&quot;: 0.10, &quot;2&quot;: 0.85},
+            &quot;confidence&quot;: 0.64,
+            &quot;legend&quot;: {str(i): v for i, v in enumerate(QUESTIONS[&quot;impact&quot;][&quot;criteria&quot;])},
+        },
+    },
+}
+
+
+def number(value: Any, label: str, high: float = 1.0) -&gt; float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f&quot;{label}: expected a number&quot;)
+    result = float(value)
+    if not math.isfinite(result) or not 0.0 &lt;= result &lt;= high:
+        raise ValueError(f&quot;{label}: number outside [0, {high}]&quot;)
+    return result
+
+
+def distribution(value: Any, keys: set[str], label: str) -&gt; dict[str, float]:
+    if not isinstance(value, dict) or set(value) != keys:
+        raise ValueError(f&quot;{label}: unexpected options&quot;)
+    result = {key: number(v, f&quot;{label}.{key}&quot;) for key, v in value.items()}
+    if abs(sum(result.values()) - 1.0) &gt; 0.01:
+        raise ValueError(f&quot;{label}: probabilities do not sum to one&quot;)
+    return result
+
+
+def validate_response(payload: Any) -&gt; dict:
+    if not isinstance(payload, dict) or not isinstance(payload.get(&quot;model&quot;), str):
+        raise ValueError(&quot;Missing response model&quot;)
+    answers = payload.get(&quot;answers&quot;)
+    if not isinstance(answers, dict):
+        raise ValueError(&quot;Missing answers object&quot;)
+    for key, expected in (
+        (&quot;department&quot;, &quot;choice&quot;),
+        (&quot;requests_human_agent&quot;, &quot;noul&quot;),
+        (&quot;impact&quot;, &quot;score&quot;),
+    ):
+        answer = answers.get(key)
+        if not isinstance(answer, dict) or answer.get(&quot;type&quot;) != expected:
+            raise ValueError(f&quot;{key}: missing or wrong answer type&quot;)
+
+    department = answers[&quot;department&quot;]
+    if department.get(&quot;choice&quot;) not in DEPARTMENTS:
+        raise ValueError(&quot;Unknown department&quot;)
+    probs = distribution(department.get(&quot;probabilities&quot;), DEPARTMENTS, &quot;department&quot;)
+    if probs[department[&quot;choice&quot;]] + 1e-6 &lt; max(probs.values()):
+        raise ValueError(&quot;Selected department is not a maximum&quot;)
+    number(department.get(&quot;confidence&quot;), &quot;department.confidence&quot;)
+    number(answers[&quot;requests_human_agent&quot;].get(&quot;noul&quot;), &quot;human.noul&quot;)
+    impact = answers[&quot;impact&quot;]
+    score = number(impact.get(&quot;score&quot;), &quot;impact.score&quot;, high=2.0)
+    levels = distribution(impact.get(&quot;probabilities&quot;), {&quot;0&quot;, &quot;1&quot;, &quot;2&quot;}, &quot;impact&quot;)
+    expected = sum(int(key) * value for key, value in levels.items())
+    if abs(score - expected) &gt; 0.02:
+        raise ValueError(&quot;Score does not match its distribution&quot;)
+    number(impact.get(&quot;confidence&quot;), &quot;impact.confidence&quot;)
+    return answers
+
+
+def build_request(message: str, ticket_id: str) -&gt; dict:
+    if not message.strip():
+        raise ValueError(&quot;Message must not be empty&quot;)
+    return {
+        &quot;model&quot;: &quot;jev-latest&quot;,
+        &quot;state&quot;: {
+            &quot;ticket_id&quot;: ticket_id,
+            &quot;messages&quot;: [{&quot;role&quot;: &quot;customer&quot;, &quot;text&quot;: message}],
+        },
+        &quot;questions&quot;: copy.deepcopy(QUESTIONS),
+    }
+
+
+def call_typesafe(request_body: dict) -&gt; dict:
+    api_key = os.environ.get(&quot;TYPESAFE_API_KEY&quot;)
+    if not api_key:
+        raise ValueError(&quot;Set TYPESAFE_API_KEY before using --live&quot;)
+    encoded = json.dumps(request_body, ensure_ascii=False).encode(&quot;utf-8&quot;)
+    request = urllib.request.Request(
+        ENDPOINT,
+        data=encoded,
+        method=&quot;POST&quot;,
+        headers={
+            &quot;Authorization&quot;: f&quot;Bearer {api_key}&quot;,
+            &quot;Content-Type&quot;: &quot;application/json&quot;,
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.loads(response.read().decode(&quot;utf-8&quot;))
+    except urllib.error.HTTPError as error:
+        # Do not print credentials or the full request.
+        raise RuntimeError(f&quot;TypeSafe returned HTTP {error.code}&quot;) from None
+    except (urllib.error.URLError, TimeoutError):
+        raise RuntimeError(&quot;TypeSafe network request failed or timed out&quot;) from None
+
+
+def decide(payload: dict) -&gt; dict:
+    answers = validate_response(payload)
+    human_p = answers[&quot;requests_human_agent&quot;][&quot;noul&quot;]
+    department = answers[&quot;department&quot;]
+    selected = department[&quot;choice&quot;]
+    selected_p = department[&quot;probabilities&quot;][selected]
+
+    if human_p &gt;= HUMAN_HIGH:
+        queue, reason = &quot;human-support&quot;, &quot;explicit-human-request&quot;
+    elif human_p &gt;= REVIEW_LOW:
+        queue, reason = &quot;manual-review&quot;, &quot;ambiguous-human-request&quot;
+    elif selected_p &lt; CHOICE_MIN or department[&quot;confidence&quot;] &lt; CONFIDENCE_MIN:
+        queue, reason = &quot;manual-review&quot;, &quot;uncertain-department&quot;
+    else:
+        queue, reason = selected, &quot;clear-department&quot;
+
+    # Severity remains a review signal, not a hidden automatic action.
+    return {
+        &quot;queue&quot;: queue,
+        &quot;reason&quot;: reason,
+        &quot;impact_score&quot;: answers[&quot;impact&quot;][&quot;score&quot;],
+        &quot;response_model&quot;: payload[&quot;model&quot;],
+        &quot;question_version&quot;: QUESTION_VERSION,
+        &quot;answers&quot;: answers,
+    }
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(&quot;--live&quot;, action=&quot;store_true&quot;)
+    parser.add_argument(&quot;--ticket-id&quot;, default=&quot;demo-ticket-481&quot;)
+    parser.add_argument(
+        &quot;--message&quot;,
+        default=&quot;I cannot sign in. Please connect me with a support specialist.&quot;,
+    )
+    args = parser.parse_args()
+    try:
+        request_body = build_request(args.message, args.ticket_id)
+        payload = call_typesafe(request_body) if args.live else copy.deepcopy(FIXTURE)
+        result = decide(payload)
+        result[&quot;mode&quot;] = &quot;live&quot; if args.live else &quot;fixture-not-model-inference&quot;
+        result[&quot;ticket_id&quot;] = args.ticket_id
+        if not args.live:
+            result[&quot;notice&quot;] = &quot;Changing --message does not change the fixed fixture.&quot;
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    except (ValueError, RuntimeError, json.JSONDecodeError) as error:
+        print(json.dumps({&quot;status&quot;: &quot;failed&quot;, &quot;error&quot;: str(error)}), file=sys.stderr)
+        return 1
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+</code></pre>
+</figure>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>اجرای نمونه و آزمون‌ها از پوشهٔ <bdi dir="ltr">examples</bdi> <bdi dir="ltr">powershell</bdi></span>
+<button class="copy" type="button" data-code="code-12">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-12" data-language="powershell">py support_router.py
+py -m unittest -v test_support_router.py
+$env:TYPESAFE_API_KEY = Read-Host &quot;TypeSafe API key&quot;
+py support_router.py --live --message &quot;Please connect me with a support specialist.&quot;</code></pre>
+</figure>
+<p>
+خروجی حالت <bdi dir="ltr">fixture</bdi> فقط برای آزمایش جریان برنامه است. تغییر پیام در این
+حالت پاسخ ثابت را تغییر نمی‌دهد و خود برنامه این موضوع را در <bdi dir="ltr">notice</bdi> اعلام
+می‌کند. در حالت زنده، خطای شبکه یا پاسخ نامعتبر با <bdi dir="ltr">status</bdi> برابر <bdi dir="ltr">failed</bdi>
+گزارش می‌شود؛ هرگز به احتمال صفر تبدیل نمی‌شود.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-21" aria-labelledby="heading-21">
+<div class="chapter-number">فصل ۲۱</div>
+<h2 id="heading-21">اجرای محلی Laya در یک پروژهٔ مستقل</h2>
+<p>
+<bdi dir="ltr">Laya</bdi> از بستهٔ <bdi dir="ltr">laya</bdi> و <bdi dir="ltr">checkpoint</bdi>های منتشرشده استفاده می‌کند. در <bdi dir="ltr">README</bdi>
+بررسی‌شده، <bdi dir="ltr">Router</bdi> راهی برای انتخاب <bdi dir="ltr">checkpoint</bdi> متناسب با درخواست معرفی شده
+است. مدل پایهٔ انگلیسی، مدل چندزبانه و مدل آموزش‌دیده برای گردش‌کارهای
+<bdi dir="ltr">typed decisions</bdi> یکسان نیستند. کیفیت یک <bdi dir="ltr">checkpoint</bdi> را به دیگری تعمیم ندهید
+و برای فارسی، مدل انگلیسی را صرفاً به خاطر حجم یا نامش انتخاب نکنید.
+</p>
+<p>
+اجرای اولیه ممکن است نیازمند دانلود وزن‌ها باشد. عبارت «محلی» یعنی پس از
+آماده شدن وابستگی‌ها و وزن‌ها، استنتاج می‌تواند روی دستگاه شما انجام شود.
+به این معنا نیست که نصب اولیه بدون اینترنت ممکن است یا هر صفحهٔ مرورگر هیچ
+منبع خارجی‌ای بارگذاری نمی‌کند. رفتار برنامه، مدل و منابع صفحه را جدا
+بررسی کنید.
+</p>
+<p>
+<bdi dir="ltr">Router</bdi> با <bdi dir="ltr">preload</bdi>=<bdi dir="ltr">True</bdi> ممکن است چند <bdi dir="ltr">checkpoint</bdi> را از قبل آماده کند و مصرف
+حافظه را بالا ببرد. برای اولین تجربه لازم نیست همهٔ مدل‌ها را هم‌زمان در
+حافظه داشته باشید. مثال زیر از ساخت <bdi dir="ltr">Router</bdi> استفاده می‌کند؛ تنظیمات دقیق
+<bdi dir="ltr">preload</bdi> و <bdi dir="ltr">device</bdi> را با نسخهٔ نصب‌شده تطبیق دهید و نخست یک ورودی کوتاه را
+اجرا کنید.
+</p>
+<p>
+کد شما باید پاسخ <bdi dir="ltr">Laya</bdi> را در یک لایهٔ سازگارکننده به قرارداد داخلی خودش
+تبدیل کند. اگر امروز <bdi dir="ltr">Jev</bdi> و فردا <bdi dir="ltr">Laya</bdi> استفاده شود، منطق <bdi dir="ltr">queue</bdi> نباید مجبور
+باشد با تفاوت <bdi dir="ltr">confidence</bdi> مربوط به <bdi dir="ltr">Noul</bdi> یا <bdi dir="ltr">metadata</bdi> اختصاصی هر سرویس درگیر
+شود. قرارداد داخلی را کوچک نگه دارید: احتمال ویژگی‌ها، گزینهٔ تیم، امتیاز
+و اطلاعات نسخه.
+</p>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>نصب مستقل <bdi dir="ltr">Laya</bdi> <bdi dir="ltr">powershell</bdi></span>
+<button class="copy" type="button" data-code="code-13">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-13" data-language="powershell">py -m venv .venv-laya
+.\.venv-laya\Scripts\python.exe -m pip install laya
+.\.venv-laya\Scripts\python.exe laya_example.py</code></pre>
+</figure>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span><bdi dir="ltr">laya_example.py</bdi>، <bdi dir="ltr">API</bdi> مطابق <bdi dir="ltr">README</bdi> عمومی <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-14">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-14" data-language="python">import json
+from laya import Router
+
+router = Router()
+state = {
+    &quot;message&quot;: &quot;بعد از تغییر رمز نمی‌توانم وارد حسابم شوم.&quot;
+}
+questions = {
+    &quot;department&quot;: {
+        &quot;type&quot;: &quot;choice&quot;,
+        &quot;instructions&quot;: &quot;Which team should handle this customer's primary issue?&quot;,
+        &quot;criteria&quot;: {
+            &quot;technical&quot;: &quot;Login failures and application errors&quot;,
+            &quot;billing&quot;: &quot;Charges, invoices, and refunds&quot;,
+            &quot;other&quot;: &quot;Requests outside those categories&quot;
+        }
+    }
+}
+
+result = router.predict(state, questions)
+print(json.dumps(result, ensure_ascii=False, indent=2))</code></pre>
+</figure>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+سازگارکننده یا <bdi dir="ltr">Adapter</bdi> ماژولی است که شکل خروجی یک سرویس را به شکل مورد
+انتظار برنامه تبدیل می‌کند. وجود این لایه به معنی یکسان بودن کیفیت یا
+کالیبراسیون دو مدل نیست؛ هنگام تغییر سرویس باید دوباره ارزیابی کنید.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+<a href="https://huggingface.co/convaiinnovations/laya" target="_blank" rel="noopener noreferrer">مدل‌کارت Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-22" aria-labelledby="heading-22">
+<div class="chapter-number">فصل ۲۲</div>
+<h2 id="heading-22">راهنمای Playground محلی در پورت ۸۷۷۰</h2>
+<p>
+محیطی که معرفی کرده‌اید در نشانی <bdi dir="ltr">http://127.0.0.1:8770/playground</bdi> قرار
+دارد. در بررسی صفحه و فایل <bdi dir="ltr">JavaScript</bdi> آن، بخش‌های <bdi dir="ltr">Preset</bdi>، <bdi dir="ltr">State</bdi>،
+<bdi dir="ltr">Questions</bdi>، حالت <bdi dir="ltr">Form</bdi> و <bdi dir="ltr">JSON</bdi>، انتخاب <bdi dir="ltr">Checkpoint</bdi>، راهنمای زبان، <bdi dir="ltr">Run</bdi> و
+<bdi dir="ltr">Compare all</bdi> 3 دیده شدند. این فصل بر همین کنترل‌های موجود تکیه دارد. وضعیت
+آماده بودن مدل ممکن است در زمان استفادهٔ شما متفاوت باشد.
+</p>
+<p>
+برای اولین آزمایش، یک <bdi dir="ltr">Preset</bdi> را انتخاب و متن <bdi dir="ltr">state</bdi> و سؤال‌های آن را
+بخوانید. پیش از زدن <bdi dir="ltr">Run</bdi>، حدس خودتان را بنویسید: چه گزینه‌ای باید برنده شود
+و کدام بخش پیام شاهد آن است؟ بعد پاسخ را با همین انتظار مقایسه کنید. صرف
+دیدن احتمال بالا بدون فهم معنای سؤال یادگیری چندانی ایجاد نمی‌کند.
+</p>
+<p>
+سپس فقط یک چیز را تغییر دهید. مثلاً جملهٔ درخواست کارشناس را به «فعلاً
+لازم نیست با کارشناس صحبت کنم» عوض کنید. اگر نوع سؤال <bdi dir="ltr">Noul</bdi> و مرز آن واضح
+باشد، جهت احتمال باید معقول تغییر کند. در گام بعد یک نقل‌قول اضافه کنید:
+«قبلاً نوشتم کارشناس می‌خواهم، ولی الان مشکل حل شد». این مثال نشان می‌دهد
+چرا نقش، زمان و آخرین خواسته اهمیت دارند.
+</p>
+<p>
+در حالت <bdi dir="ltr">JSON</bdi>، شکل دقیق <bdi dir="ltr">questions</bdi> را می‌بینید و می‌توانید با درخواست <bdi dir="ltr">API</bdi>
+مقایسه کنید. پس از تغییر بین <bdi dir="ltr">Form</bdi> و <bdi dir="ltr">JSON</bdi>، مطمئن شوید معیارها حفظ شده‌اند.
+برای <bdi dir="ltr">Choice</bdi> گزینه‌ها و برای <bdi dir="ltr">Score</bdi> ترتیب سطح‌ها مهم‌اند. نام فیلدها را از
+همین قالب کپی کنید؛ حدس زدن قالب از ظاهر فرم خطا ایجاد می‌کند.
+</p>
+<p>
+<bdi dir="ltr">Compare all</bdi> 3 طبق <bdi dir="ltr">JavaScript</bdi> بررسی‌شده درخواست‌هایی برای <bdi dir="ltr">english</bdi>،
+<bdi dir="ltr">multilingual</bdi> و <bdi dir="ltr">typed-decisions</bdi> می‌سازد. نتیجهٔ آن مقایسهٔ سه <bdi dir="ltr">checkpoint</bdi>
+روی همان ورودی است، نه سه رأی مستقل برای اثبات حقیقت. اگر اختلاف دارند،
+بررسی کنید کدام مدل برای زبان و نوع کار مناسب‌تر است و آیا هیچ‌کدام دادهٔ
+کافی دارند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+این <bdi dir="ltr">Playground</bdi> مسیر خروجی ضبط‌شده هم دارد. در نبود مدل آماده، بعضی
+<bdi dir="ltr">Preset</bdi>ها از دادهٔ ثبت‌شده پاسخ می‌گیرند. پیام <bdi dir="ltr">Recorded output</bdi> یعنی نتیجه
+مربوط به اجرای قبلی است. برای اثبات اجرای زنده، وضعیت آماده بودن و پاسخ به
+متن تازه را بررسی کنید؛ باز شدن صفحه به‌تنهایی کافی نیست.
+</p>
+</aside>
+<p>
+در کد <bdi dir="ltr">ui.js</bdi> بررسی‌شده، ارسال زنده به <bdi dir="ltr">api/predict</bdi> با روش <bdi dir="ltr">POST</bdi> و بدنهٔ <bdi dir="ltr">JSON</bdi>
+انجام می‌شود. این <bdi dir="ltr">endpoint</bdi> مربوط به سرویس محلی <bdi dir="ltr">Playground</bdi> است و <bdi dir="ltr">endpoint</bdi>
+رسمی <bdi dir="ltr">TypeSafe</bdi> نیست. شکل خطا و <bdi dir="ltr">metadata</bdi> محلی را از پاسخ همان سرویس بخوانید
+و کلید <bdi dir="ltr">TypeSafe</bdi> را بی‌دلیل به این مسیر نفرستید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://brainfunctioncollapse.com/laya" target="_blank" rel="noopener noreferrer">Laya در Brain Function Collapse</a>
+<a href="http://127.0.0.1:8770/playground" target="_blank" rel="noopener noreferrer">Playground محلی شما</a>
+</div>
+</section>
+<section class="chapter" id="chapter-23" aria-labelledby="heading-23">
+<div class="chapter-number">فصل ۲۳</div>
+<h2 id="heading-23">مثال کاربردی: پیدا کردن درخواست واقعی در گفت‌وگو</h2>
+<p>
+فرض کنید آخرین پیام مشتری این است: «دوستم گفت برای این مشکل بازپرداخت
+بخواه، ولی من فقط می‌خواهم اشتراکم دوباره فعال شود.» اگر تنها واژهٔ
+بازپرداخت را جست‌وجو کنید، نتیجه اشتباه می‌شود. سؤال مناسب می‌تواند این
+باشد: «آیا مشتری در آخرین پیام خودش درخواست بازپرداخت کرده است؟» پاسخ باید
+بر خواستهٔ فعلی مشتری متمرکز باشد، نه هر عبارتی که داخل متن وجود دارد.
+</p>
+<p>
+برای گفت‌وگوی چندنوبتی، <bdi dir="ltr">state</bdi> را با نقش‌ها و ترتیب پیام‌ها بسازید. اگر
+کارشناس گفته «می‌توانید درخواست بازپرداخت بدهید»، آن جمله درخواست مشتری
+نیست. اگر مشتری ابتدا بازپرداخت خواسته و بعد گفته «صرف‌نظر کردم»، تعریف
+محصول تعیین می‌کند آخرین قصد معتبر کدام است. این قاعده باید داخل
+<bdi dir="ltr">instructions</bdi> یا دادهٔ <bdi dir="ltr">task</bdi> روشن شود.
+</p>
+<p>
+یک الگوی مفید، جدا کردن دو سؤال است: آیا درخواست فعلی روشن است؟ و اگر روشن
+است، نوع درخواست چیست؟ در صورت ابهام، برنامه می‌تواند پرسش روشن‌کننده‌ای
+از کاربر بپرسد. اگر پاسخِ سؤال روشن‌بودن کم است، نباید برچسبِ انتخاب‌شده
+را با قطعیت نمایش داد. در اینجا مسیر محصول با عدم قطعیت مدل هماهنگ می‌شود.
+</p>
+<p>
+در مجموعهٔ آزمون، درخواست صریح، نفی درخواست، نقل قول، شرط آینده، کنایه و
+تغییر نظر را بگنجانید. برای هر مورد، دلیل برچسب را در یک جمله بنویسید. این
+جمله برای تیم شماست و لزوماً نیاز نیست از مدل تولید شود. وقتی دو ارزیاب
+برچسب متفاوت می‌دهند، اختلافشان سرنخ اصلاح تعریف سؤال است.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+واحد ارزیابی در این مثال «قصد فعلیِ گویندهٔ مشخص» است. اگر به‌جای آن «وجود
+موضوع در کل متن» را ارزیابی کنید، پاسخ درست عوض می‌شود. بسیاری از خطاهای
+ظاهری مدل در واقع اختلاف میان این دو تعریف‌اند.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+</div>
+</section>
+<section class="chapter" id="chapter-24" aria-labelledby="heading-24">
+<div class="chapter-number">فصل ۲۴</div>
+<h2 id="heading-24">مثال کاربردی: بازیابی و رتبه‌بندی سندها</h2>
+<p>
+برای پاسخ دادن به پرسش کاربر، ابتدا باید متن مرتبط را پیدا کنید. می‌توانید
+با جست‌وجوی واژه‌ای یا برداری تعدادی سند نامزد بیاورید و سپس مدل
+تصمیم‌گیری را برای سنجش ارتباط هر نامزد استفاده کنید. این مرحله <bdi dir="ltr">reranking</bdi>
+نام دارد: مجموعهٔ اولیه فراهم شده و اکنون ترتیب آن بهتر می‌شود. مدل
+تصمیم‌گیری قرار نیست اسنادی را ببیند که برنامه برایش نفرستاده است.
+</p>
+<p>
+<bdi dir="ltr">state</bdi> می‌تواند شامل <bdi dir="ltr">query</bdi> و فهرست کوتاه نامزدها باشد. برای هر نامزد، یک
+سؤال مستقل با متن یا شناسهٔ روشن آن ساخته می‌شود. سؤال «آیا این بخش برای
+پاسخ به پرسش داده‌شده اطلاعات کافی دارد؟» با «آیا این بخش فقط موضوع مشابه
+دارد؟» یکسان نیست. معیار را بر اساس کاربرد تنظیم کنید: شباهت موضوع همیشه
+به معنای پشتیبانی پاسخ نیست.
+</p>
+<p>
+اگر از <bdi dir="ltr">Noul</bdi> برای هر نامزد استفاده کنید، جمع نمره‌ها لازم نیست یک باشد. چند
+سند می‌توانند هم‌زمان مرتبط باشند یا هیچ‌کدام کافی نباشند. مرتب کردن بر
+اساس <bdi dir="ltr">probability</bdi> برای انتخاب نامزدهای برتر مفید است، اما اختلاف نمرهٔ دو
+سند را بدون ارزیابی به میزان تفاوت کیفیت واقعی تعبیر نکنید. مقیاس خروجی
+باید روی دادهٔ خودتان آزمایش شود.
+</p>
+<p>
+برای حفظ شواهد، شناسهٔ سند، نسخه، عنوان بخش و بازهٔ متن را همراه نتیجه نگه
+دارید. اگر کاربر بعداً سؤال کند چرا این سند انتخاب شد، برنامه می‌تواند
+شاهد را نمایش دهد. پاسخ <bdi dir="ltr">typed</bdi> خودِ مدل توضیح آزاد تولید نمی‌کند؛ توضیح
+محصول می‌تواند از لینک و متن شاهدی ساخته شود که از ابتدا در برنامه دارید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Retrieval</bdi> مرحلهٔ پیدا کردن نامزدهاست و <bdi dir="ltr">reranking</bdi> مرحلهٔ مرتب کردن دوبارهٔ
+آن‌ها. اگر سند درست در مرحلهٔ اول پیدا نشود، مرحلهٔ دوم نمی‌تواند آن را از
+هیچ تولید کند. ابتدا پوشش مجموعهٔ نامزد را بسنجید و سپس کیفیت رتبه‌بندی
+را.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+<a href="https://docs.typesafe.ai/primitives/choice" target="_blank" rel="noopener noreferrer">Choice</a>
+</div>
+</section>
+<section class="chapter" id="chapter-25" aria-labelledby="heading-25">
+<div class="chapter-number">فصل ۲۵</div>
+<h2 id="heading-25">مثال کاربردی: استخراج مقدار با انتخاب کنترل‌شده</h2>
+<p>
+گاهی به‌جای اینکه مدل یک مقدار جدید بنویسد، می‌توانید مقدارهای نامزد را با
+کد پیدا کنید و از مدل بخواهید مورد درست را انتخاب کند. فرض کنید در متن سه
+تاریخ وجود دارد و می‌خواهید بدانید کدام تاریخ موعد تحویل است. برنامه
+می‌تواند تاریخ‌ها را استخراج و متن پیرامون هرکدام را نگه دارد؛ مدل فقط
+رابطهٔ معنایی «موعد تحویل» را تشخیص دهد.
+</p>
+<p>
+مرحلهٔ نخست باید پوشش خوبی داشته باشد. اگر <bdi dir="ltr">parser</bdi> تاریخ نوشته‌شده به حروف
+را پیدا نکند، مدل در میان گزینه‌ها به آن دسترسی ندارد. بنابراین انتخاب
+کنترل‌شده مشکل استخراج اولیه را جادویی حل نمی‌کند. یک گزینهٔ «هیچ‌کدام» و
+یک سؤال دربارهٔ وجود مقدار لازم ممکن است کمک کنند، ولی باز هم دادهٔ ناقص
+را کامل نمی‌کنند.
+</p>
+<p>
+شناسهٔ گزینه بهتر است به متن اصلی اشاره کند. مثلاً <bdi dir="ltr">date_2</bdi> به موقعیت دقیق
+یک عبارت در سند وصل شود و کد مقدار اصلی را از همانجا کپی کند. این کار
+احتمال تغییر ناخواستهٔ فرمت یا ساختن مقدار تازه را کم می‌کند. تبدیل تقویم،
+منطقهٔ زمانی و اعتبارسنجی تاریخ باید با کتابخانهٔ مناسب در کد انجام شود.
+</p>
+<p>
+در فارسی، تاریخ ممکن است با رقم فارسی، عربی یا لاتین و با تقویم متفاوت
+نوشته شود. پیش از نرمال‌سازی، شکل اصلی را حفظ کنید. اگر عبارت «سه روز
+دیگر» وجود دارد، تاریخ مرجع و منطقهٔ زمانی لازم است. بدون آن‌ها نه مدل و
+نه کد نمی‌توانند یک تاریخ قطعی و معتبر بسازند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Span</bdi> یعنی بخشی از متن با موقعیت مشخص آغاز و پایان. نگه‌داری <bdi dir="ltr">span</bdi> به شما
+اجازه می‌دهد مقدار انتخاب‌شده را با منبع تطبیق دهید. خروجی نهایی بهتر است
+علاوه بر مقدار، شناسهٔ سند و موقعیت شاهد را هم داشته باشد تا قابل بررسی
+باقی بماند.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/choice" target="_blank" rel="noopener noreferrer">Choice</a>
+</div>
+</section>
+<section class="chapter" id="chapter-26" aria-labelledby="heading-26">
+<div class="chapter-number">فصل ۲۶</div>
+<h2 id="heading-26">ارزیابی: مجموعهٔ دادهٔ واقعی و برچسب مرجع</h2>
+<p>
+قبل از تنظیم مدل، نمونه‌هایی از مسئلهٔ واقعی جمع کنید. پیام‌های تمیز و
+کوتاه کافی نیستند؛ غلط املایی، متن محاوره‌ای، پیام چندموضوعی و مورد مبهم
+را هم وارد کنید. داده باید نمایندهٔ چیزی باشد که سامانه در عمل می‌بیند.
+حذف همهٔ موارد سخت، عدد کیفیت را زیبا می‌کند ولی ارزش عملی آزمایش را کم
+می‌کند.
+</p>
+<p>
+برای هر نمونه، برچسب مرجع و تعریف آن را ثبت کنید. اگر سؤال دربارهٔ
+«درخواست صریح کارشناس» است، دستور برچسب‌گذاری باید روشن کند «شما ربات
+هستید؟» چه وضعیتی دارد. بهتر است بخشی از داده را دو نفر مستقل برچسب بزنند
+و موارد اختلاف را بررسی کنند. اختلاف بالا اغلب نشان می‌دهد مرز مفهوم هنوز
+روشن نیست.
+</p>
+<p>
+داده را به بخش توسعه و آزمون نهایی جدا کنید. سؤال‌ها و آستانه‌ها را روی
+بخش توسعه تنظیم کنید و بخش آزمون را تا ارزیابی نهایی کنار بگذارید. اگر
+بارها به همان آزمون نگاه کنید و <bdi dir="ltr">prompt</bdi> را مطابق آن عوض کنید، آن مجموعه
+عملاً به دادهٔ توسعه تبدیل شده است. عملکرد روی آن دیگر برآورد بی‌طرفانه‌ای
+از آینده نیست.
+</p>
+<p>
+نمونه‌های بسیار شبیه از یک گفت‌وگو را در دو بخش پخش نکنید. وجود نسخهٔ کمی
+تغییرکردهٔ یک تیکت در آموزش و آزمون می‌تواند نتیجه را خوش‌بینانه کند.
+جداسازی بر اساس شناسهٔ مشتری، گفت‌وگو یا بازهٔ زمانی گاهی مناسب‌تر از
+تقسیم تصادفی تک‌پیام‌هاست. انتخاب روش به دادهٔ واقعی شما بستگی دارد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Ground truth</bdi> یا برچسب مرجع، پاسخ مورد توافق برای ارزیابی است. در قضاوت‌های
+انسانی همیشه حقیقت بی‌ابهام وجود ندارد. به‌جای پنهان کردن اختلاف، آن را
+ثبت کنید و در موارد واقعاً مبهم اجازهٔ بازبینی بدهید.
+</p>
+</aside>
+<p>
+در گزارش آزمایش، فقط درصد درست را ننویسید. تعداد نمونه، سهم برچسب‌ها،
+زبان، نسخهٔ مدل، نسخهٔ سؤال‌ها، تاریخ اجرا و نرخ شکست سرویس را ثبت کنید.
+خروجی قابل بازتولید باید نشان دهد دقیقاً چه چیزی اندازه‌گیری شده است.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer">Confidence</a>
+</div>
+</section>
+<section class="chapter" id="chapter-27" aria-labelledby="heading-27">
+<div class="chapter-number">فصل ۲۷</div>
+<h2 id="heading-27">معیارهای کیفیت و انتخاب آستانه</h2>
+<p>
+<bdi dir="ltr">Accuracy</bdi> سهم پاسخ‌های درست از تمام موارد است، ولی در دادهٔ نامتوازن
+می‌تواند گمراه‌کننده باشد. اگر تنها تعداد کمی پیام درخواست بازپرداخت
+باشند، مدلی که همه را «خیر» اعلام کند ممکن است <bdi dir="ltr">accuracy</bdi> ظاهراً بالایی
+بگیرد. برای همین باید رفتار روی موارد مثبت و منفی را جدا ببینید و با یک خط
+پایهٔ ساده مقایسه کنید.
+</p>
+<p>
+<bdi dir="ltr">Precision</bdi> می‌پرسد از مواردی که مثبت اعلام کرده‌ایم چند مورد واقعاً
+مثبت‌اند. <bdi dir="ltr">Recall</bdi> می‌پرسد از تمام مثبت‌های واقعی چند مورد را پیدا کرده‌ایم.
+در تشخیص درخواست کارشناس، <bdi dir="ltr">precision</bdi> پایین یعنی پرونده‌های زیادی بی‌دلیل به
+صف انسانی می‌روند؛ <bdi dir="ltr">recall</bdi> پایین یعنی بخشی از درخواست‌های واقعی نادیده
+گرفته می‌شود. هزینهٔ این دو برای هر محصول فرق دارد.
+</p>
+<p>
+برای احتمال‌ها، <bdi dir="ltr">Brier score</bdi> در حالت دودویی میانگین مربع فاصلهٔ احتمال از
+برچسب صفر یا یک است. اگر واقعیت یک باشد، پیش‌بینی ۰٫۹ خطای کمتری از ۰٫۶
+دارد؛ اگر واقعیت صفر باشد، پیش‌بینی بسیار مطمئنِ ۰٫۹ بدتر است. این معیار
+به احتمال توجه می‌کند، نه فقط به برندهٔ بعد از <bdi dir="ltr">threshold.</bdi>
+</p>
+<p>
+وقتی مسیر <bdi dir="ltr">review</bdi> دارید، نرخ پوشش خودکار را هم بسنجید: چه سهمی از داده بدون
+انسان تصمیم می‌گیرد؟ سپس کیفیت را در همان بخش خودکار اندازه بگیرید. مدلی
+که با فرستادن تقریباً همه‌چیز به انسان دقت بالا دارد، الزاماً برای محصول
+بهتر نیست. باید هزینهٔ بازبینی، تأخیر و خطا را کنار هم دید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Coverage</bdi> در اینجا سهم تصمیم‌های خودکار است، نه پوشش تست کد. ممکن است برای
+یک آستانه، پوشش کمتر اما خطای خودکار پایین‌تر داشته باشید. انتخاب نقطهٔ
+کار یک تصمیم محصول است که بر دادهٔ ارزیابی تکیه می‌کند.
+</p>
+</aside>
+<figure class="code-block">
+<figcaption class="code-bar">
+<span>معیار آموزشی برای <bdi dir="ltr">Noul</bdi> <bdi dir="ltr">python</bdi></span>
+<button class="copy" type="button" data-code="code-15">کپی کد</button>
+</figcaption>
+<pre dir="ltr"><code id="code-15" data-language="python">def binary_metrics(rows, threshold=0.8):
+    tp = fp = fn = tn = 0
+    squared_error = 0.0
+    for row in rows:
+        y = row[&quot;label&quot;]
+        p = row[&quot;probability&quot;]
+        prediction = p &gt;= threshold
+        tp += int(prediction and y == 1)
+        fp += int(prediction and y == 0)
+        fn += int(not prediction and y == 1)
+        tn += int(not prediction and y == 0)
+        squared_error += (p - y) ** 2
+    n = len(rows)
+    return {
+        &quot;accuracy&quot;: (tp + tn) / n if n else None,
+        &quot;precision&quot;: tp / (tp + fp) if tp + fp else None,
+        &quot;recall&quot;: tp / (tp + fn) if tp + fn else None,
+        &quot;brier&quot;: squared_error / n if n else None,
+    }</code></pre>
+</figure>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer">Confidence</a>
+</div>
+</section>
+<section class="chapter" id="chapter-28" aria-labelledby="heading-28">
+<div class="chapter-number">فصل ۲۸</div>
+<h2 id="heading-28">خواندن درست آزمایش Self-consistency</h2>
+<p>
+<bdi dir="ltr">Cookbook</bdi> معرفی‌شده یک پروندهٔ بیمه را با چهارده سؤال <bdi dir="ltr">Noul</bdi> و چند تنظیم مدل
+بررسی می‌کند. برای هر حالت پانزده تکرار وجود دارد. هدف آن نشان دادن تغییر
+احتمال‌ها و اثر مرز تصمیم است. این آزمایش با سنجش کیفیت روی هزاران پروندهٔ
+مستقل فرق دارد؛ تکرار یک پرونده بیشتر دربارهٔ پایداری همان وضعیت اطلاعات
+می‌دهد.
+</p>
+<p>
+در آن آزمایش، یک <bdi dir="ltr">uid</bdi> بی‌اثرِ معنایی در هر اجرا تغییر می‌کند. خود منبع
+تصریح می‌کند که این روش نمی‌تواند حساسیت به آن فیلد را از نوسان در
+درخواست‌های کاملاً یکسان جدا کند. بنابراین اگر بخواهید آزمایش دقیق‌تری
+طراحی کنید، یک بار ورودی کاملاً ثابت و بار دیگر ورودی با تغییر بی‌ربط را
+جدا اجرا کنید.
+</p>
+<p>
+ثبات با درستی یکسان نیست. مدلی می‌تواند پانزده بار پاسخ غلطِ یکسان بدهد و
+انحراف معیار بسیار کمی داشته باشد. برای سنجش محصول، سه محور جدا لازم‌اند:
+درست بودن نسبت به مرجع، کالیبراسیون احتمال و پایداری در تکرار یا تغییرهای
+بی‌اثر. یکی از این محورها جانشین دیگری نیست.
+</p>
+<p>
+اگر احتمال‌های یک سؤال پیرامون ۰٫۵ جابه‌جا شوند، تصمیم دودوییِ ساده ممکن
+است دائم عوض شود. یک بازهٔ بازبینی می‌تواند رفتار را پایدارتر کند؛ اما عرض
+آن باید با داده و هزینهٔ خطا تنظیم شود. بازهٔ ۰٫۳۰ تا ۰٫۷۰ در منبع نمونهٔ
+آزمایش است، نه آستانهٔ جهانی برای تمام <bdi dir="ltr">Noul</bdi>ها.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Standard deviation</bdi> یا انحراف معیار، میزان پراکندگی عددها را توصیف می‌کند.
+کوچک بودن آن می‌گوید نمونه‌ها به هم نزدیک‌اند. دربارهٔ اینکه به جواب صحیح
+نزدیک‌اند یا نه چیزی نمی‌گوید.
+</p>
+</aside>
+<p>
+در گزارش هزینه و سرعت این <bdi dir="ltr">cookbook</bdi>، برخی قیمت‌ها تاریخی و تخمینی‌اند.
+آن‌ها را به‌عنوان قبض فعلی یا قیمت تضمینی سرویس نقل نکنید. اگر سرعت برای
+پروژهٔ شما مهم است، زمان کامل از <bdi dir="ltr">backend</bdi> خودتان و روی ورودی‌های واقعی را
+اندازه بگیرید. میانگین به‌تنهایی کافی نیست؛ درخواست‌های کند را هم ببینید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/cookbooks/consistency_noul_cookbook" target="_blank" rel="noopener noreferrer">Cookbook تکرار Noul</a>
+</div>
+</section>
+<section class="chapter" id="chapter-29" aria-labelledby="heading-29">
+<div class="chapter-number">فصل ۲۹</div>
+<h2 id="heading-29">فارسی: نفی، نقش گوینده، رقم و متن ترکیبی</h2>
+<p>
+برای فارسی، کیفیت ترجمهٔ سؤال و کیفیت پردازش متن را جدا بررسی کنید. یک
+سؤال انگلیسیِ دقیق روی <bdi dir="ltr">state</bdi> فارسی ممکن است بهتر یا بدتر از سؤال فارسی عمل
+کند؛ پاسخ را فقط آزمایش مشخص می‌کند. مستندات <bdi dir="ltr">Jev</bdi> هشدار می‌دهد زبان اصلی
+آموزش انگلیسی است. <bdi dir="ltr">Laya checkpoint</bdi> چندزبانه دارد، ولی وجود نام فارسی یا
+چندزبانه تضمین کیفیت روی همهٔ صورت‌های گفتار نیست.
+</p>
+<p>
+نمونه‌های محاوره‌ای مانند «پولمو پس نمی‌خوام» و رسمی مانند «درخواست
+استرداد وجه ندارم» از نظر مقصد نزدیک‌اند. فاصله، نیم‌فاصله، حرف ی و ک
+متفاوت، رقم فارسی و عربی و واژه‌های انگلیسی داخل جمله می‌توانند روی
+توکن‌سازی و قواعد برنامه اثر بگذارند. یکسان‌سازی برای جست‌وجو مفید است،
+اما متن اصلی را برای شاهد نگه دارید.
+</p>
+<p>
+نفی را با حذف نشانه‌ها خراب نکنید. یک پاک‌سازی تهاجمی که «نمی‌خواهم» را
+اشتباه تبدیل کند، معنی پرونده را تغییر می‌دهد. همچنین همهٔ اعداد را بدون
+دانستن واحد تبدیل نکنید. عدد ۱۴۰۳ ممکن است سال باشد، نه مبلغ یا شناسه.
+اطلاعاتی که کد می‌داند مانند <bdi dir="ltr">currency</bdi>، <bdi dir="ltr">timezone</bdi> و نقش گوینده را ساخت‌یافته
+بدهید.
+</p>
+<p>
+در مثال‌های آموزشی فارسی از جمله‌های طبیعی استفاده کنید. «آیا کاربر انسان
+می‌خواهد؟» ترجمهٔ مبهمی است. عبارت دقیق «آیا مشتری درخواست کرده با یکی از
+کارشناسان پشتیبانی صحبت کند؟» رفتار مورد بررسی را روشن می‌کند. انتخاب
+واژهٔ درست فقط زیبایی نثر نیست؛ مستقیماً بر برچسب‌گذاری و تفسیر احتمال اثر
+دارد.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Normalization</bdi> یعنی تبدیل شکل‌های ظاهراً متفاوت به یک قالب مشترک برای
+کاربرد مشخص. این کار باید هدفمند باشد. برای حفظ استناد، متن اصلی و نسخهٔ
+نرمال‌شده را با هم نگه دارید و مشخص کنید مدل کدام را دیده است.
+</p>
+</aside>
+<p>
+برای آزمون فارسی، چند دسته بسازید: مثبت روشن، منفی روشن، نفی، شرط آینده،
+نقل‌قول، چند گوینده، تغییر نظر و متن فارسی‌انگلیسی. کیفیت را جداگانه برای
+هر دسته گزارش کنید. یک امتیاز کلی خوب ممکن است ضعف جدی روی نفی یا تغییر
+نظر را پنهان کند.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-30" aria-labelledby="heading-30">
+<div class="chapter-number">فصل ۳۰</div>
+<h2 id="heading-30">کارایی، batching، cache و نسخه‌بندی</h2>
+<p>
+وقتی چند سؤال به <bdi dir="ltr">state</bdi> یکسان وابسته‌اند، ارسال یک‌جای آن‌ها می‌تواند
+هزینهٔ رفت‌وبرگشت شبکه را کم کند. اما این به معنی رایگان بودن هر سؤال
+اضافی نیست. محاسبه، توکن‌ها و حافظه همچنان مصرف می‌شوند. سؤال‌هایی را
+اضافه کنید که نتیجه‌شان در تصمیم یا تحلیل استفاده می‌شود؛ پرسش‌های بی‌مصرف
+فقط تشخیص علت خطا را سخت‌تر می‌کنند.
+</p>
+<p>
+در اجرای محلی، بارگذاری وزن‌ها را از زمان استنتاج جدا اندازه بگیرید. اولین
+اجرا ممکن است شامل دانلود، ساخت مدل یا گرم شدن کتابخانه‌ها باشد. اگر همهٔ
+این زمان را با یک فراخوانی گرمِ <bdi dir="ltr">API</bdi> مقایسه کنید، نتیجه منصفانه نیست. از
+طرف دیگر حذف بارگذاری از گزارش تجربهٔ واقعی کاربر هم می‌تواند گمراه‌کننده
+باشد؛ هر دو عدد را با برچسب روشن ارائه کنید.
+</p>
+<p>
+<bdi dir="ltr">Cache</bdi> یعنی استفادهٔ دوباره از نتیجهٔ قبلی برای همان مسئله. کلید <bdi dir="ltr">cache</bdi> باید
+علاوه بر <bdi dir="ltr">state</bdi>، سؤال‌ها، معیارها، نسخهٔ مدل و تنظیمات مؤثر را دربر بگیرد.
+اگر فقط متن پیام را کلید کنید، پس از تغییر تعریف «فوری» ممکن است پاسخ
+قدیمی را به‌عنوان جواب تازه نشان دهید. ثبت نسخهٔ سیاست تصمیم نیز برای
+بازتولید رفتار لازم است.
+</p>
+<p>
+<bdi dir="ltr">cache</bdi> پاسخ مدل را از <bdi dir="ltr">cache</bdi> تصمیم نهایی جدا در نظر بگیرید. اگر فقط
+<bdi dir="ltr">threshold</bdi> تغییر کرده و داده و مدل ثابت‌اند، می‌توانید تصمیم را از احتمال
+ذخیره‌شده دوباره محاسبه کنید. اما اگر شواهد پرونده یا معیار سؤال عوض شده،
+احتمال قبلی برای مسئلهٔ جدید معتبر فرض نمی‌شود. این جداسازی در آزمایش
+آستانه‌ها هزینه را بسیار کم می‌کند.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">P95</bdi> زمانیه که ۹۵ درصد درخواست‌های اندازه‌گیری‌شده سریع‌تر از آن تمام
+شده‌اند. این معیار کندیِ انتهای توزیع را بهتر از میانگین تنها نشان می‌دهد.
+هنگام گزارش، تعداد نمونه و شرایط اجرا را کنار آن بنویسید.
+</p>
+</aside>
+<p>
+برای هر اجرا حداقل زمان کل، نام درخواست‌شده و نام برگشتی مدل، نسخهٔ
+سؤال‌ها، تعداد سؤال و وضعیت موفقیت را نگه دارید. متن حساس را بی‌دلیل در
+<bdi dir="ltr">log</bdi> عمومی نریزید. هدف ثبت مشاهده‌پذیری است: بتوانید بفهمید رفتار تغییر
+کرده، نه اینکه هرچه در اختیار دارید بی‌هدف ذخیره کنید.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+</div>
+</section>
+<section class="chapter" id="chapter-31" aria-labelledby="heading-31">
+<div class="chapter-number">فصل ۳۱</div>
+<h2 id="heading-31">خطاهای سرویس و اتصال به محصول</h2>
+<p>
+خطای سرویس نباید به احتمال صفر تبدیل شود. اگر شبکه قطع شد و کد مقدار
+پیش‌فرض صفر گذاشت، «نتوانستم بررسی کنم» به «با اطمینان خیر» تبدیل می‌شود.
+این یکی از خطرناک‌ترین خطاهای اتصال است. وضعیت <bdi dir="ltr">failed</bdi> یا <bdi dir="ltr">unavailable</bdi> را
+جدا نگه دارید و تصمیم محصول برای آن را صریح تعیین کنید.
+</p>
+<p>
+خطاهای ورودی و مجوز را با <bdi dir="ltr">retry</bdi> کور حل نکنید. بدنهٔ اشتباه معمولاً با
+تکرار همان درخواست درست نمی‌شود. برای خطاهای موقت، تعداد تلاش محدود و
+فاصلهٔ مناسب در نظر بگیرید و از راهنمای سرویس دربارهٔ محدودیت درخواست
+پیروی کنید. در نمونهٔ کامل این کتاب <bdi dir="ltr">retry</bdi> خودکار وجود ندارد تا رفتار پایه
+واضح باشد؛ افزودن آن باید همراه سیاست دقیق باشد.
+</p>
+<p>
+اگر درخواست ارزیابی دوباره اجرا شود، ممکن است پاسخ کمی فرق کند. اگر بعد از
+آن یک اقدام واقعی مانند ثبت تسک یا تغییر وضعیت انجام می‌دهید، اجرای تکراری
+نباید همان اقدام را چند بار بسازد. یک کلید یکتا برای رویداد تصمیم یا تغییر
+وضعیت در پایگاه داده لازم است. این موضوع به منطق سیستم مربوط است و با
+افزایش <bdi dir="ltr">confidence</bdi> حل نمی‌شود.
+</p>
+<p>
+وقتی مدل پیشنهاد ارجاع می‌دهد، <bdi dir="ltr">permission</bdi> و قواعد محصول همچنان در کد اعمال
+می‌شوند. فهمیدن اینکه کاربر درخواست دسترسی دارد، به معنای مجاز بودن آن
+دسترسی نیست. مدل می‌تواند قصد را تشخیص دهد، اما احراز هویت و مجوز باید از
+سامانهٔ معتبر بیاید. در تیکت‌روتر مثال، تصمیم صرفاً در خروجی <bdi dir="ltr">JSON</bdi> ثبت
+می‌شود.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Idempotency</bdi> یعنی اگر یک درخواست منطقی چند بار رسید، اثر نهایی اضافه تکرار
+نشود. مثلاً برای یک تیکت و یک نسخهٔ تصمیم، تنها یک رویداد ارجاع ثبت شود.
+این ویژگیِ سامانه است، نه ویژگیِ احتمال مدل.
+</p>
+</aside>
+<p>
+در محصول نهایی، وضعیت درحال‌بررسی، خطا، بازبینی لازم و تصمیم آماده را از
+هم جدا نمایش دهید. پیام خطا باید به کاربر بگوید چه اتفاقی افتاده و چه راهی
+برای ادامه دارد. نمایش بی‌وقفهٔ عدد احتمالی خام همیشه مفید نیست؛ برای
+کاربر عمومی، نتیجهٔ قابل فهم و امکان اصلاح مهم‌تر است.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-32" aria-labelledby="heading-32">
+<div class="chapter-number">فصل ۳۲</div>
+<h2 id="heading-32">عیب‌یابی با ترتیب مشخص</h2>
+<p>
+اگر جواب نادرست است، اول معنی سؤال را دوباره بخوانید. آیا دربارهٔ وجود
+واژه پرسیده‌اید یا قصد نویسنده؟ آیا آخرین پیام مدنظر است یا تمام سابقه؟
+آیا گزینهٔ درست اصلاً وجود دارد؟ رفع این مشکلات معمولاً از دستکاری تصادفی
+آستانه مفیدتر است. خطایی که از تعریف مسئله آمده با مدل بزرگ‌تر هم ممکن است
+باقی بماند.
+</p>
+<p>
+دوم، <bdi dir="ltr">state</bdi> واقعیِ ارسال‌شده را بررسی کنید. آنچه در <bdi dir="ltr">UI</bdi> دیده‌اید ممکن است با
+<bdi dir="ltr">JSON</bdi> ساخته‌شده فرق داشته باشد. آیا نقش‌ها حذف شده‌اند؟ آیا متن دوبار
+<bdi dir="ltr">JSON.stringify</bdi> شده و به رشته‌ای پر از <bdi dir="ltr">escape</bdi> تبدیل شده است؟ آیا آخرین پیام
+به‌جای اول آمده؟ آیا جملهٔ تعیین‌کننده بر اثر محدودیت طول بریده شده است؟
+</p>
+<p>
+سوم، نوع سؤال و معیارها را بررسی کنید. شاید با <bdi dir="ltr">Noul</bdi> در حال سنجش درجه باشید
+یا با <bdi dir="ltr">Choice</bdi> انتظار چند برچسب داشته باشید. شاید سطح‌های <bdi dir="ltr">Score</bdi> روی چند بُعد
+مختلف نوشته شده‌اند. بعد از اصلاح، یک مجموعهٔ کوچک ثابت را دوباره اجرا
+کنید و تغییر را ثبت کنید. هر بار یک فرض مشخص را بیازمایید.
+</p>
+<p>
+چهارم، خروجی خام و تصمیم برنامه را جدا ببینید. ممکن است مدل احتمال مناسب
+داده اما کد شرط را وارونه نوشته باشد. در نمونهٔ قدیمی راهنما، اولویت بالا
+به‌صورت ثابت به صف کارشناس داده می‌شد؛ این با ادعای استفاده از احتمال تماس
+تکراری سازگار نبود. مثال جدید هر خروجی را فقط از داده‌ای می‌سازد که واقعاً
+مصرف کرده است.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+<bdi dir="ltr">Minimal reproduction</bdi> یعنی کوچک‌ترین ورودی‌ای که همان خطا را نشان می‌دهد.
+حذف تدریجی دادهٔ نامرتبط کمک می‌کند بفهمید نفی، طول متن، گزینهٔ مشابه یا
+قانون برنامه کدام‌یک علت اصلی است.
+</p>
+</aside>
+<p>
+اگر مشکل تنها روی فارسی یا یک <bdi dir="ltr">checkpoint</bdi> رخ می‌دهد، از همان موارد یک دستهٔ
+ارزیابی بسازید. نتیجهٔ تک‌موردی برای تصمیم مهاجرت کافی نیست. تغییر سؤال،
+تغییر مدل و تغییر آستانه را جدا ثبت کنید تا بعداً بتوانید توضیح دهید کدام
+تغییر اثر واقعی داشته است.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</div>
+</section>
+<section class="chapter" id="chapter-33" aria-labelledby="heading-33">
+<div class="chapter-number">فصل ۳۳</div>
+<h2 id="heading-33">آزمایش‌های تعاملی و تمرین‌های پیشنهادی</h2>
+<p>
+در بخش تعاملی این کتاب، احتمال <bdi dir="ltr">Noul</bdi> را با لغزنده تغییر دهید و ببینید سیاست
+نمونه چگونه از «خیر» به «بازبینی» و سپس «بله» می‌رسد. این ابزار هیچ مدل
+زنده‌ای را اجرا نمی‌کند؛ فقط رابطهٔ عدد و شرط‌های برنامه را آموزش می‌دهد.
+مرزها را روی مقادیر دقیق امتحان کنید تا تفاوت کوچک‌تر بودن و بزرگ‌تر یا
+مساوی بودن روشن شود.
+</p>
+<p>
+آزمایش دوم سه وزن مربوط به <bdi dir="ltr">Score</bdi> را می‌گیرد، آن‌ها را نرمال می‌کند و
+میانگین سطح‌ها را نشان می‌دهد. یک بار تمام وزن را روی سطح یک بگذارید. بار
+دیگر وزن برابر روی صفر و دو بگذارید. امتیاز یکسان می‌شود ولی توزیع متفاوت
+است. این تجربه دلیل نگه‌داری <bdi dir="ltr">probabilities</bdi> در کنار <bdi dir="ltr">score</bdi> را ملموس می‌کند.
+</p>
+<p>
+تمرین نخست: ده پیام طبیعی فارسی بنویسید که نیمی درخواست صریح کارشناس باشند
+و نیمی فقط از مشکل شکایت کنند. پیش از اجرای مدل برچسب بزنید. سپس چند مورد
+شرطی، نقل قول و تغییر نظر اضافه کنید. کدام‌ها مرز تعریف شما را آشکار
+می‌کنند؟ متن معیار را بر اساس همین مرزها اصلاح کنید.
+</p>
+<p>
+تمرین دوم: مسیریاب تیکت را به سه تیم متفاوتِ پروژهٔ خودتان متصل کنید. فقط
+عنوان تیم‌ها را عوض نکنید؛ شرح معیار و نمونهٔ پیام هر تیم را هم بنویسید.
+سپس <bdi dir="ltr">fixture</bdi>ها و آزمون‌های تصمیم را با قرارداد جدید هماهنگ کنید. پاسخ به
+این سؤال که «کدام تیم مسئول است؟» باید ابتدا در سازمان روشن باشد.
+</p>
+<p>
+تمرین سوم: یک مدل زنده را روی مجموعهٔ نگه‌داشته‌شده اجرا و <bdi dir="ltr">precision</bdi>،
+<bdi dir="ltr">recall</bdi> و نرخ <bdi dir="ltr">review</bdi> را گزارش کنید. اگر عددها ضعیف‌اند، طبق فصل عیب‌یابی
+یکی از عوامل را عوض کنید. از نوشتن گزارشی مانند «این مدل عالی است» خودداری
+کنید؛ بگویید روی کدام داده، با چه نسخه و چه شرطی چه نتیجه‌ای گرفته‌اید.
+</p>
+<aside class="term-note" aria-label="توضیح اصطلاح یا نکته">
+<span class="alert-icon" aria-hidden="true">!</span>
+<p>
+پاسخ تمرین‌ها یک عدد ثابت نیست. هدف این است که بتوانید تعریف، شاهد، خروجی
+و اقدام را به هم وصل کنید و علت انتخاب طراحی را توضیح دهید. وقتی این
+زنجیره واضح باشد، ابزار <bdi dir="ltr">AI</bdi> به بخشی قابل مهندسی از پروژه تبدیل می‌شود.
+</p>
+</aside>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+<a href="https://docs.typesafe.ai/primitives/score" target="_blank" rel="noopener noreferrer">Score</a>
+</div>
+</section>
+<section class="chapter" id="chapter-34" aria-labelledby="heading-34">
+<div class="chapter-number">فصل ۳۴</div>
+<h2 id="heading-34">واژه‌نامهٔ کاربردی و پاسخ به پرسش‌های رایج</h2>
+<p>
+<bdi dir="ltr">State:</bdi> دادهٔ موجود برای ارزیابی یک درخواست. <bdi dir="ltr">Prompt</bdi> یا <bdi dir="ltr">instructions:</bdi> شرح
+کاری که از مدل می‌خواهید. <bdi dir="ltr">Criteria:</bdi> شرح مرز پاسخ‌ها. <bdi dir="ltr">Question ID:</bdi> نامی
+برای پیدا کردن پاسخ در کد. <bdi dir="ltr">Primitive:</bdi> نوع پایهٔ سؤال مانند <bdi dir="ltr">Noul</bdi>، <bdi dir="ltr">Choice</bdi> یا
+<bdi dir="ltr">Score. Typed output:</bdi> پاسخ با نوع و شکل مشخص، مانند یک عدد احتمال یا یک
+گزینهٔ معلوم.
+</p>
+<p>
+<bdi dir="ltr">Token:</bdi> قطعهٔ پردازشی متن که لزوماً یک واژه نیست. <bdi dir="ltr">Embedding:</bdi> نمایش برداری.
+<bdi dir="ltr">Encoder:</bdi> شبکهٔ سازندهٔ نمایش وابسته به زمینه. <bdi dir="ltr">Logit:</bdi> امتیاز خام گزینه.
+<bdi dir="ltr">Softmax:</bdi> تبدیل امتیازها به توزیع با جمع یک. <bdi dir="ltr">Entropy:</bdi> سنجهٔ پراکندگی توزیع.
+<bdi dir="ltr">Calibration:</bdi> هم‌خوانی احتمال‌ها با فراوانی نتیجهٔ درست در مجموعهٔ ارزیابی.
+</p>
+<p>
+<bdi dir="ltr">Inference:</bdi> اجرای مدل آموزش‌دیده. <bdi dir="ltr">Training:</bdi> تغییر وزن‌ها با داده و هدف
+آموزشی. <bdi dir="ltr">Checkpoint:</bdi> بستهٔ مشخص وزن‌ها و تنظیمات. <bdi dir="ltr">Fine-tuning:</bdi> ادامهٔ آموزش
+برای نیاز مشخص. <bdi dir="ltr">Batch:</bdi> گروهی از ورودی‌ها در یک نوبت پردازش. <bdi dir="ltr">Cache:</bdi>
+نگه‌داری نتیجه برای استفادهٔ دوباره. <bdi dir="ltr">Adapter:</bdi> تبدیل قرارداد یک سرویس به
+قرارداد داخلی برنامه.
+</p>
+<p>
+آیا <bdi dir="ltr">TypeSafe</bdi> همان <bdi dir="ltr">TypeScript</bdi> است؟ خیر؛ اولی در این سند سرویس تصمیم‌گیری <bdi dir="ltr">AI</bdi>
+است و دومی زبان برنامه‌نویسی. آیا نصب <bdi dir="ltr">Skill</bdi> مدل را محلی می‌کند؟ خیر؛ <bdi dir="ltr">Skill</bdi>
+به دستیار نحوهٔ کار را توضیح می‌دهد. آیا <bdi dir="ltr">Laya</bdi> نسخهٔ آفلاین <bdi dir="ltr">Jev</bdi> است؟ خیر؛
+پروژهٔ مستقلی است که خروجی‌های مشابهی برای کارهای نزدیک ارائه می‌کند.
+</p>
+<p>
+آیا <bdi dir="ltr">probability</bdi> بالا مجوز اقدام است؟ خیر؛ احتمال به یک سؤال مشخص تعلق دارد
+و قانون اقدام در برنامه است. آیا متن <bdi dir="ltr">JSON</bdi> می‌تواند غلط باشد؟ بله؛ <bdi dir="ltr">schema</bdi>
+درست، حقیقت محتوا را تضمین نمی‌کند. آیا می‌توان بدون <bdi dir="ltr">API key</bdi> تمرین کرد؟
+بله؛ <bdi dir="ltr">fixture</bdi> و آزمایش‌های این کتاب اتصال خارجی ندارند. برای اجرای <bdi dir="ltr">Jev</bdi> زنده
+کلید معتبر لازم است.
+</p>
+<p>
+آیا عدد سرعت وب‌سایت برای لپ‌تاپ من هم برقرار است؟ نمی‌توان فرض کرد؛
+سخت‌افزار، طول ورودی، <bdi dir="ltr">checkpoint</bdi> و وضعیت بارگذاری اثر دارند. آیا مقایسهٔ
+سه <bdi dir="ltr">checkpoint</bdi> حقیقت را ثابت می‌کند؟ خیر؛ اختلاف و توافق هر دو نیازمند
+برچسب مرجع‌اند. آیا <bdi dir="ltr">confidence</bdi> دو سرویس قابل مقایسه است؟ فقط پس از بررسی
+تعریف و ارزیابی روی دادهٔ مشترک.
+</p>
+<div class="chapter-sources">
+منابع این فصل و مطالعهٔ بیشتر:
+<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">معرفی TypeSafe</a>
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+</div>
+</section>
+<section class="chapter" id="labs">
+<h2>آزمایش‌های تعاملیِ بدون مدل</h2>
+<p>این محاسبه‌ها فقط در مرورگر شما انجام می‌شوند. هیچ متنی ارسال نمی‌شود و عددها خروجی یک مدل زنده نیستند.</p>
+<div class="lab">
+<h3>رابطهٔ احتمال Noul و آستانهٔ تصمیم</h3>
+<label for="probability">احتمال پاسخ بله را تغییر دهید</label>
+<input type="range" id="probability" min="0" max="1" step="0.01" value="0.55">
+<output id="probability-output" aria-live="polite"></output>
+<p>کمتر از ۰٫۲۵: خیر؛ از ۰٫۲۵ تا کمتر از ۰٫۸۰: بازبینی؛ از ۰٫۸۰ به بالا: بله.</p>
+</div>
+<div class="lab">
+<h3>دو توزیع متفاوت با Score یکسان</h3>
+<p>وزن‌های خام را تعیین کنید. ابزار آن‌ها را بر مجموع تقسیم می‌کند تا احتمال‌های با جمع یک ساخته شوند.</p>
+<label for="weight-0">وزن سطح صفر: مشکل ظاهری</label>
+<input type="range" class="score-weight" id="weight-0" min="0" max="100" value="50">
+<label for="weight-1">وزن سطح یک: اختلال با راه‌حل جایگزین</label>
+<input type="range" class="score-weight" id="weight-1" min="0" max="100" value="0">
+<label for="weight-2">وزن سطح دو: توقف کار بدون راه‌حل جایگزین</label>
+<input type="range" class="score-weight" id="weight-2" min="0" max="100" value="50">
+<output id="score-output" aria-live="polite"></output>
+<p class="formula">score = 0 × p₀ + 1 × p₁ + 2 × p₂</p>
+</div>
+</section>
+<section class="chapter" id="references">
+<h2>منابع، وضعیت بررسی و فایل‌های همراه</h2>
+<p>منابع TypeSafe قرارداد API و مفاهیم رسمی را توضیح می‌دهند. منابع Laya شامل README، مدل‌کارت و کد عمومی‌اند. توضیح‌های طراحی پروژه و مثال‌های فارسی، تألیف آموزشی این کتاب هستند.</p>
+<p>کد Laya با شناسهٔ commit مشخص در لینک‌های زیر ارجاع داده شده است. ادعاهای سرعت و کیفیت وب‌سایت‌ها به سخت‌افزار، مجموعهٔ داده و نسخه وابسته‌اند و در این کتاب به‌عنوان تضمین عمومی پذیرفته نشده‌اند.</p>
+<p>بررسی محیط محلی از طریق دریافت صفحه و فایل‌های JavaScript انجام شده است؛ آماده بودن وزن‌ها یا کیفیت استنتاج محلی از صرف در دسترس بودن صفحه نتیجه‌گیری نشده است.</p>
+<ol class="reference-list">
+<li>
+<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">معرفی TypeSafe</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">System One</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/concepts/state" target="_blank" rel="noopener noreferrer">ورودی State</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/primitives/noul" target="_blank" rel="noopener noreferrer">Noul</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/primitives/choice" target="_blank" rel="noopener noreferrer">Choice</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/primitives/score" target="_blank" rel="noopener noreferrer">Score</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer">Confidence</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/introduction/machine-learning-primer" target="_blank" rel="noopener noreferrer">آموزش و RLCD در TypeSafe</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">قرارداد HTTP</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/sdk/python" target="_blank" rel="noopener noreferrer">SDK پایتون</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/sdk/javascript" target="_blank" rel="noopener noreferrer">SDK جاوااسکریپت</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/cookbooks/consistency_noul_cookbook" target="_blank" rel="noopener noreferrer">Cookbook تکرار Noul</a>
+</li>
+<li>
+<a href="https://docs.typesafe.ai/agent-skill" target="_blank" rel="noopener noreferrer">Skill رسمی</a>
+</li>
+<li>
+<a href="https://brainfunctioncollapse.com/laya" target="_blank" rel="noopener noreferrer">Laya در Brain Function Collapse</a>
+</li>
+<li>
+<a href="https://brainfunctioncollapse.com/laya/about" target="_blank" rel="noopener noreferrer">دربارهٔ سازندگان Laya و Playground</a>
+</li>
+<li>
+<a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">README اصلی Laya</a>
+</li>
+<li>
+<a href="https://huggingface.co/convaiinnovations/laya" target="_blank" rel="noopener noreferrer">مدل‌کارت Laya</a>
+</li>
+<li>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/common.py" target="_blank" rel="noopener noreferrer">ساخت دنباله و شبکهٔ Laya</a>
+</li>
+<li>
+<a href="https://github.com/NandhaKishorM/laya/blob/42626c348753fbb17572a813127df2278a1ec527/laya/agent.py" target="_blank" rel="noopener noreferrer">اجرای مدل و بازسازی پاسخ Laya</a>
+</li>
+<li>
+<a href="http://127.0.0.1:8770/playground" target="_blank" rel="noopener noreferrer">Playground محلی شما</a>
+</li>
+</ol>
+<h3>فایل‌های پروژه</h3>
+<p><a href="examples/support_router.py" download>support_router.py</a>: نمونهٔ کامل با حالت fixture و اتصال زندهٔ اختیاری.</p>
+<p><a href="examples/test_support_router.py" download>test_support_router.py</a>: چهارده آزمون برای مرزهای تصمیم و پاسخ نامعتبر.</p>
+<p><a href="handbook.fa.md" download>متن کامل Markdown</a>: نسخهٔ قابل ویرایش برای یادداشت‌برداری و توسعهٔ راهنما.</p>
+<p>آزمون‌های محلی نمونه پاس شده‌اند. فراخوانی زندهٔ TypeSafe و دانلود یا اجرای وزن‌های تازهٔ Laya در ساخت این کتاب انجام نشده‌اند.</p>
+</section>
+<footer class="footer">
+متن فارسی راست‌به‌چپ، کدها چپ‌به‌راست. علامت ! توضیح تکمیلی را مشخص می‌کند.
+</footer>
+</main>
+</div>
+<script>
+
+const chapters = [...document.querySelectorAll(".chapter")];
+const search = document.getElementById("search");
+const status = document.getElementById("search-status");
+const normalize = value => value
+  .replaceAll("ي", "ی")
+  .replaceAll("ك", "ک")
+  .replaceAll("\u200c", " ")
+  .toLocaleLowerCase()
+  .trim();
+const index = chapters.map(chapter => ({
+  chapter,
+  text: normalize(chapter.textContent),
+  link: document.querySelector('.toc a[href="#' + chapter.id + '"]')
+}));
+search.addEventListener("input", () => {
+  const terms = normalize(search.value).split(/\s+/).filter(Boolean);
+  let count = 0;
+  for (const item of index) {
+    const matches = terms.every(term => item.text.includes(term));
+    item.chapter.hidden = !matches;
+    if (item.link) item.link.parentElement.hidden = !matches;
+    if (matches) count++;
+  }
+  status.textContent = terms.length
+    ? count.toLocaleString("fa-IR") + " فصل مطابق جست‌وجو"
+    : "جست‌وجو در متن کامل فصل‌ها";
+});
+document.getElementById("clear-search").addEventListener("click", () => {
+  search.value = "";
+  search.dispatchEvent(new Event("input"));
+  search.focus();
+});
+document.getElementById("theme").addEventListener("click", () => {
+  const root = document.documentElement;
+  root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+  try { localStorage.setItem("handbook-theme", root.dataset.theme); } catch {}
+});
+try {
+  const saved = localStorage.getItem("handbook-theme");
+  if (saved === "light" || saved === "dark") {
+    document.documentElement.dataset.theme = saved;
+  }
+} catch {}
+document.getElementById("print").addEventListener("click", () => {
+  document.querySelectorAll("details").forEach(node => node.open = true);
+  window.print();
+});
+for (const button of document.querySelectorAll(".copy")) {
+  button.addEventListener("click", async () => {
+    const code = document.getElementById(button.dataset.code);
+    try {
+      await navigator.clipboard.writeText(code.textContent);
+      button.textContent = "کپی شد";
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(code);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      button.textContent = "انتخاب شد؛ Ctrl+C";
+    }
+    setTimeout(() => button.textContent = "کپی کد", 2200);
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    document.querySelectorAll(".toc a.active").forEach(a => a.classList.remove("active"));
+    const link = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+    if (link) link.classList.add("active");
+  }
+}, { rootMargin: "-8% 0px -70% 0px" });
+chapters.forEach(chapter => observer.observe(chapter));
+const probability = document.getElementById("probability");
+const probabilityOutput = document.getElementById("probability-output");
+function updateProbability() {
+  const p = Number(probability.value);
+  const route = p < 0.25 ? "خیر" : p >= 0.8 ? "بله" : "نیازمند بازبینی";
+  probabilityOutput.textContent = "احتمال بله: " +
+    p.toLocaleString("fa-IR", { minimumFractionDigits: 2 }) + " | تصمیم: " + route;
+}
+probability.addEventListener("input", updateProbability);
+updateProbability();
+const weights = [...document.querySelectorAll(".score-weight")];
+const scoreOutput = document.getElementById("score-output");
+function updateScore() {
+  const values = weights.map(w => Number(w.value));
+  const sum = values.reduce((a, b) => a + b, 0);
+  if (!sum) {
+    scoreOutput.textContent = "حداقل یکی از وزن‌ها باید بزرگ‌تر از صفر باشد.";
+    return;
+  }
+  const p = values.map(value => value / sum);
+  const score = p.reduce((total, value, level) => total + level * value, 0);
+  scoreOutput.textContent = "احتمال سطح‌ها به ترتیب صفر، یک، دو: " +
+    p.map(v => v.toLocaleString("fa-IR", { maximumFractionDigits: 2 })).join(" / ") +
+    " | امتیاز: " + score.toLocaleString("fa-IR", { maximumFractionDigits: 2 });
+}
+weights.forEach(w => w.addEventListener("input", updateScore));
+updateScore();
+
+</script>
+</body>
+</html>
